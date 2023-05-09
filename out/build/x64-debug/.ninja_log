@@ -1,0 +1,8 @@
+# ninja log v5
+3	603	7052991080000000	CMakeFiles/GIS.dir/GIS.cpp.obj	e70367204d669436
+623	802	7052991300000000	GIS.exe	cab8e9b6e3524c4
+10	623	7052991300000000	CMakeFiles/GIS.dir/classes/GisRecord.cpp.obj	963f9c1a11d2f7d1
+7	614	7052990100000000	CMakeFiles/GIS.dir/GisRecord.cpp.obj	1fc34da3df796553
+14	73	7052991080000000	CMakeFiles/GIS.dir/classes/CoordinateIndex.cpp.obj	7ac4ee56ef529d28
+11	70	7052991080000000	CMakeFiles/GIS.dir/classes/NameIndex.cpp.obj	5eb3fc94749ab035
+18	75	7052991080000000	CMakeFiles/GIS.dir/classes/BufferPool.cpp.obj	43ec337964520e66

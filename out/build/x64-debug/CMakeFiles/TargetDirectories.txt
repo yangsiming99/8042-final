@@ -1,0 +1,3 @@
+I:/BCIT/Btech/8042/GIS/out/build/x64-debug/CMakeFiles/GIS.dir
+I:/BCIT/Btech/8042/GIS/out/build/x64-debug/CMakeFiles/edit_cache.dir
+I:/BCIT/Btech/8042/GIS/out/build/x64-debug/CMakeFiles/rebuild_cache.dir
