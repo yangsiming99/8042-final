@@ -1,8 +1,8 @@
-# Install script for directory: I:/BCIT/Btech/8042/GIS
+# Install script for directory: I:/Btech/8042/8042-final
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "I:/BCIT/Btech/8042/GIS/out/install/x64-debug")
+  set(CMAKE_INSTALL_PREFIX "I:/Btech/8042/8042-final/out/install/x64-debug")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -40,5 +40,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "I:/BCIT/Btech/8042/GIS/out/build/x64-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "I:/Btech/8042/8042-final/out/build/x64-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

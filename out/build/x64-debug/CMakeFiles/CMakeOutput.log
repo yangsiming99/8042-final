@@ -21,7 +21,7 @@ Compilation of the C compiler identification source "CMakeCCompilerId.c" produce
 
 Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "CMakeCCompilerId.obj"
 
-The C compiler identification is MSVC, found in "I:/BCIT/Btech/8042/GIS/out/build/x64-debug/CMakeFiles/3.25.1-msvc1/CompilerIdC/CMakeCCompilerId.exe"
+The C compiler identification is MSVC, found in "I:/Btech/8042/8042-final/out/build/x64-debug/CMakeFiles/3.25.1-msvc1/CompilerIdC/CMakeCCompilerId.exe"
 
 Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" succeeded.
 Compiler: C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.35.32215/bin/Hostx64/x64/cl.exe 
@@ -45,21 +45,21 @@ Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" p
 
 Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "CMakeCXXCompilerId.obj"
 
-The CXX compiler identification is MSVC, found in "I:/BCIT/Btech/8042/GIS/out/build/x64-debug/CMakeFiles/3.25.1-msvc1/CompilerIdCXX/CMakeCXXCompilerId.exe"
+The CXX compiler identification is MSVC, found in "I:/Btech/8042/8042-final/out/build/x64-debug/CMakeFiles/3.25.1-msvc1/CompilerIdCXX/CMakeCXXCompilerId.exe"
 
 Detecting C compiler ABI info compiled with the following output:
-Change Dir: I:/BCIT/Btech/8042/GIS/out/build/x64-debug/CMakeFiles/CMakeScratch/TryCompile-vo45n0
+Change Dir: I:/Btech/8042/8042-final/out/build/x64-debug/CMakeFiles/CMakeScratch/TryCompile-yg8drk
 
-Run Build Command(s):C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_8bd2d && [1/2] Building C object CMakeFiles\cmTC_8bd2d.dir\CMakeCCompilerABI.c.obj
-[2/2] Linking C executable cmTC_8bd2d.exe
+Run Build Command(s):C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_93911 && [1/2] Building C object CMakeFiles\cmTC_93911.dir\CMakeCCompilerABI.c.obj
+[2/2] Linking C executable cmTC_93911.exe
 
 
 
 Detecting CXX compiler ABI info compiled with the following output:
-Change Dir: I:/BCIT/Btech/8042/GIS/out/build/x64-debug/CMakeFiles/CMakeScratch/TryCompile-3s0cn9
+Change Dir: I:/Btech/8042/8042-final/out/build/x64-debug/CMakeFiles/CMakeScratch/TryCompile-y5q20o
 
-Run Build Command(s):C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_ddd41 && [1/2] Building CXX object CMakeFiles\cmTC_ddd41.dir\CMakeCXXCompilerABI.cpp.obj
-[2/2] Linking CXX executable cmTC_ddd41.exe
+Run Build Command(s):C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_9a8c8 && [1/2] Building CXX object CMakeFiles\cmTC_9a8c8.dir\CMakeCXXCompilerABI.cpp.obj
+[2/2] Linking CXX executable cmTC_9a8c8.exe
 
 
 

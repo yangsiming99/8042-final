@@ -39,7 +39,7 @@ include CMakeFiles\rules.ninja
 #############################################
 # Logical path to working directory; prefix for absolute paths.
 
-cmake_ninja_workdir = I$:\BCIT\Btech\8042\GIS\out\build\x64-debug\
+cmake_ninja_workdir = I$:\Btech\8042\8042-final\out\build\x64-debug\
 # =============================================================================
 # Object build statements for EXECUTABLE target GIS
 
@@ -49,49 +49,49 @@ cmake_ninja_workdir = I$:\BCIT\Btech\8042\GIS\out\build\x64-debug\
 
 build cmake_object_order_depends_target_GIS: phony || CMakeFiles\GIS.dir
 
-build CMakeFiles\GIS.dir\GIS.cpp.obj: CXX_COMPILER__GIS_Debug I$:\BCIT\Btech\8042\GIS\GIS.cpp || cmake_object_order_depends_target_GIS
+build CMakeFiles\GIS.dir\GIS.cpp.obj: CXX_COMPILER__GIS_Debug I$:\Btech\8042\8042-final\GIS.cpp || cmake_object_order_depends_target_GIS
   FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Ob0 /Od /RTC1 -ZI -std:c++20
   OBJECT_DIR = CMakeFiles\GIS.dir
   OBJECT_FILE_DIR = CMakeFiles\GIS.dir
   TARGET_COMPILE_PDB = CMakeFiles\GIS.dir\
   TARGET_PDB = GIS.pdb
 
-build CMakeFiles\GIS.dir\classes\GisRecord.cpp.obj: CXX_COMPILER__GIS_Debug I$:\BCIT\Btech\8042\GIS\classes\GisRecord.cpp || cmake_object_order_depends_target_GIS
+build CMakeFiles\GIS.dir\classes\GisRecord.cpp.obj: CXX_COMPILER__GIS_Debug I$:\Btech\8042\8042-final\classes\GisRecord.cpp || cmake_object_order_depends_target_GIS
   FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Ob0 /Od /RTC1 -ZI -std:c++20
   OBJECT_DIR = CMakeFiles\GIS.dir
   OBJECT_FILE_DIR = CMakeFiles\GIS.dir\classes
   TARGET_COMPILE_PDB = CMakeFiles\GIS.dir\
   TARGET_PDB = GIS.pdb
 
-build CMakeFiles\GIS.dir\classes\NameIndex.cpp.obj: CXX_COMPILER__GIS_Debug I$:\BCIT\Btech\8042\GIS\classes\NameIndex.cpp || cmake_object_order_depends_target_GIS
+build CMakeFiles\GIS.dir\classes\NameIndex.cpp.obj: CXX_COMPILER__GIS_Debug I$:\Btech\8042\8042-final\classes\NameIndex.cpp || cmake_object_order_depends_target_GIS
   FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Ob0 /Od /RTC1 -ZI -std:c++20
   OBJECT_DIR = CMakeFiles\GIS.dir
   OBJECT_FILE_DIR = CMakeFiles\GIS.dir\classes
   TARGET_COMPILE_PDB = CMakeFiles\GIS.dir\
   TARGET_PDB = GIS.pdb
 
-build CMakeFiles\GIS.dir\classes\CoordinateIndex.cpp.obj: CXX_COMPILER__GIS_Debug I$:\BCIT\Btech\8042\GIS\classes\CoordinateIndex.cpp || cmake_object_order_depends_target_GIS
+build CMakeFiles\GIS.dir\classes\CoordinateIndex.cpp.obj: CXX_COMPILER__GIS_Debug I$:\Btech\8042\8042-final\classes\CoordinateIndex.cpp || cmake_object_order_depends_target_GIS
   FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Ob0 /Od /RTC1 -ZI -std:c++20
   OBJECT_DIR = CMakeFiles\GIS.dir
   OBJECT_FILE_DIR = CMakeFiles\GIS.dir\classes
   TARGET_COMPILE_PDB = CMakeFiles\GIS.dir\
   TARGET_PDB = GIS.pdb
 
-build CMakeFiles\GIS.dir\classes\BufferPool.cpp.obj: CXX_COMPILER__GIS_Debug I$:\BCIT\Btech\8042\GIS\classes\BufferPool.cpp || cmake_object_order_depends_target_GIS
+build CMakeFiles\GIS.dir\classes\BufferPool.cpp.obj: CXX_COMPILER__GIS_Debug I$:\Btech\8042\8042-final\classes\BufferPool.cpp || cmake_object_order_depends_target_GIS
   FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Ob0 /Od /RTC1 -ZI -std:c++20
   OBJECT_DIR = CMakeFiles\GIS.dir
   OBJECT_FILE_DIR = CMakeFiles\GIS.dir\classes
   TARGET_COMPILE_PDB = CMakeFiles\GIS.dir\
   TARGET_PDB = GIS.pdb
 
-build CMakeFiles\GIS.dir\classes\SystemManager.cpp.obj: CXX_COMPILER__GIS_Debug I$:\BCIT\Btech\8042\GIS\classes\SystemManager.cpp || cmake_object_order_depends_target_GIS
+build CMakeFiles\GIS.dir\classes\SystemManager.cpp.obj: CXX_COMPILER__GIS_Debug I$:\Btech\8042\8042-final\classes\SystemManager.cpp || cmake_object_order_depends_target_GIS
   FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Ob0 /Od /RTC1 -ZI -std:c++20
   OBJECT_DIR = CMakeFiles\GIS.dir
   OBJECT_FILE_DIR = CMakeFiles\GIS.dir\classes
   TARGET_COMPILE_PDB = CMakeFiles\GIS.dir\
   TARGET_PDB = GIS.pdb
 
-build CMakeFiles\GIS.dir\classes\CommandProceessor.cpp.obj: CXX_COMPILER__GIS_Debug I$:\BCIT\Btech\8042\GIS\classes\CommandProceessor.cpp || cmake_object_order_depends_target_GIS
+build CMakeFiles\GIS.dir\classes\CommandProceessor.cpp.obj: CXX_COMPILER__GIS_Debug I$:\Btech\8042\8042-final\classes\CommandProceessor.cpp || cmake_object_order_depends_target_GIS
   FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Ob0 /Od /RTC1 -ZI -std:c++20
   OBJECT_DIR = CMakeFiles\GIS.dir
   OBJECT_FILE_DIR = CMakeFiles\GIS.dir\classes
@@ -123,7 +123,7 @@ build GIS.exe: CXX_EXECUTABLE_LINKER__GIS_Debug CMakeFiles\GIS.dir\GIS.cpp.obj C
 # Utility command for edit_cache
 
 build CMakeFiles\edit_cache.util: CUSTOM_COMMAND
-  COMMAND = cmd.exe /C "cd /D I:\BCIT\Btech\8042\GIS\out\build\x64-debug && "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -E echo "No interactive CMake dialog available.""
+  COMMAND = cmd.exe /C "cd /D I:\Btech\8042\8042-final\out\build\x64-debug && "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -E echo "No interactive CMake dialog available.""
   DESC = No interactive CMake dialog available...
   restat = 1
 
@@ -134,7 +134,7 @@ build edit_cache: phony CMakeFiles\edit_cache.util
 # Utility command for rebuild_cache
 
 build CMakeFiles\rebuild_cache.util: CUSTOM_COMMAND
-  COMMAND = cmd.exe /C "cd /D I:\BCIT\Btech\8042\GIS\out\build\x64-debug && "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" --regenerate-during-build -SI:\BCIT\Btech\8042\GIS -BI:\BCIT\Btech\8042\GIS\out\build\x64-debug"
+  COMMAND = cmd.exe /C "cd /D I:\Btech\8042\8042-final\out\build\x64-debug && "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" --regenerate-during-build -SI:\Btech\8042\8042-final -BI:\Btech\8042\8042-final\out\build\x64-debug"
   DESC = Running CMake to regenerate build system...
   pool = console
   restat = 1
@@ -152,7 +152,7 @@ build GIS: phony GIS.exe
 # =============================================================================
 
 #############################################
-# Folder: I:/BCIT/Btech/8042/GIS/out/build/x64-debug
+# Folder: I:/Btech/8042/8042-final/out/build/x64-debug
 
 build all: phony GIS.exe
 
@@ -163,14 +163,14 @@ build all: phony GIS.exe
 #############################################
 # Re-run CMake if any of its inputs changed.
 
-build build.ninja: RERUN_CMAKE | C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\CMakeCInformation.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\CMakeCXXInformation.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\CMakeCommonLanguageInclude.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\CMakeGenericSystem.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\CMakeInitializeConfigs.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\CMakeLanguageInformation.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\CMakeRCInformation.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\CMakeSystemSpecificInformation.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\CMakeSystemSpecificInitialize.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\Compiler\CMakeCommonCompilerMacros.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\Compiler\MSVC-C.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\Compiler\MSVC-CXX.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\Compiler\MSVC.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\Platform\Windows-MSVC-C.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\Platform\Windows-MSVC-CXX.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\Platform\Windows-MSVC.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\Platform\Windows.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\Platform\WindowsPaths.cmake CMakeCache.txt CMakeFiles\3.25.1-msvc1\CMakeCCompiler.cmake CMakeFiles\3.25.1-msvc1\CMakeCXXCompiler.cmake CMakeFiles\3.25.1-msvc1\CMakeRCCompiler.cmake CMakeFiles\3.25.1-msvc1\CMakeSystem.cmake I$:\BCIT\Btech\8042\GIS\CMakeLists.txt
+build build.ninja: RERUN_CMAKE | C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\CMakeCInformation.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\CMakeCXXInformation.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\CMakeCommonLanguageInclude.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\CMakeGenericSystem.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\CMakeInitializeConfigs.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\CMakeLanguageInformation.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\CMakeRCInformation.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\CMakeSystemSpecificInformation.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\CMakeSystemSpecificInitialize.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\Compiler\CMakeCommonCompilerMacros.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\Compiler\MSVC-C.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\Compiler\MSVC-CXX.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\Compiler\MSVC.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\Platform\Windows-MSVC-C.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\Platform\Windows-MSVC-CXX.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\Platform\Windows-MSVC.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\Platform\Windows.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\Platform\WindowsPaths.cmake CMakeCache.txt CMakeFiles\3.25.1-msvc1\CMakeCCompiler.cmake CMakeFiles\3.25.1-msvc1\CMakeCXXCompiler.cmake CMakeFiles\3.25.1-msvc1\CMakeRCCompiler.cmake CMakeFiles\3.25.1-msvc1\CMakeSystem.cmake I$:\Btech\8042\8042-final\CMakeLists.txt
   pool = console
 
 
 #############################################
 # A missing CMake input file is not an error.
 
-build C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\CMakeCInformation.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\CMakeCXXInformation.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\CMakeCommonLanguageInclude.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\CMakeGenericSystem.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\CMakeInitializeConfigs.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\CMakeLanguageInformation.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\CMakeRCInformation.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\CMakeSystemSpecificInformation.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\CMakeSystemSpecificInitialize.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\Compiler\CMakeCommonCompilerMacros.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\Compiler\MSVC-C.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\Compiler\MSVC-CXX.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\Compiler\MSVC.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\Platform\Windows-MSVC-C.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\Platform\Windows-MSVC-CXX.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\Platform\Windows-MSVC.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\Platform\Windows.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\Platform\WindowsPaths.cmake CMakeCache.txt CMakeFiles\3.25.1-msvc1\CMakeCCompiler.cmake CMakeFiles\3.25.1-msvc1\CMakeCXXCompiler.cmake CMakeFiles\3.25.1-msvc1\CMakeRCCompiler.cmake CMakeFiles\3.25.1-msvc1\CMakeSystem.cmake I$:\BCIT\Btech\8042\GIS\CMakeLists.txt: phony
+build C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\CMakeCInformation.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\CMakeCXXInformation.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\CMakeCommonLanguageInclude.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\CMakeGenericSystem.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\CMakeInitializeConfigs.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\CMakeLanguageInformation.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\CMakeRCInformation.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\CMakeSystemSpecificInformation.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\CMakeSystemSpecificInitialize.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\Compiler\CMakeCommonCompilerMacros.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\Compiler\MSVC-C.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\Compiler\MSVC-CXX.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\Compiler\MSVC.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\Platform\Windows-MSVC-C.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\Platform\Windows-MSVC-CXX.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\Platform\Windows-MSVC.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\Platform\Windows.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\Platform\WindowsPaths.cmake CMakeCache.txt CMakeFiles\3.25.1-msvc1\CMakeCCompiler.cmake CMakeFiles\3.25.1-msvc1\CMakeCXXCompiler.cmake CMakeFiles\3.25.1-msvc1\CMakeRCCompiler.cmake CMakeFiles\3.25.1-msvc1\CMakeSystem.cmake I$:\Btech\8042\8042-final\CMakeLists.txt: phony
 
 
 #############################################

@@ -12,7 +12,7 @@ endif()
 project ("GIS")
 
 # Add source to this project's executable.
-add_executable (GIS "GIS.cpp" "headers/GIS.h" "headers/GISRecord.h" "classes/GISRecord.cpp" "classes/NameIndex.cpp" "classes/CoordinateIndex.cpp" "classes/BufferPool.cpp" "classes/SystemManager.cpp" "classes/CommandProceessor.cpp" "headers/BufferPool.h" "headers/CommandProcess.h" "headers/CoordinateIndex.h" "headers/NameIndex.h" "headers/Logger.h" "headers/SystemManager.h")
+add_executable (GIS "GIS.cpp" "headers/GIS.h" "headers/GISRecord.h" "classes/GISRecord.cpp" "classes/NameIndex.cpp" "classes/CoordinateIndex.cpp" "classes/BufferPool.cpp" "classes/SystemManager.cpp" "classes/CommandProceessor.cpp" "headers/BufferPool.h" "headers/CommandProcessor.h" "headers/CoordinateIndex.h" "headers/NameIndex.h" "headers/Logger.h" "headers/SystemManager.h")
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET GIS PROPERTY CXX_STANDARD 20)

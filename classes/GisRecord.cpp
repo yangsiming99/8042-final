@@ -1,12 +1,32 @@
 // Literally here so I can make sure I know how file splitting works
 #include "../headers/GISRecord.h"
+#include <string.h>
+#include <fstream>
 
-GISRecord::GISRecord(int month, int day, int year) {
-	this->day = day;
-	this->month = month;
-	this->year = year;
+using namespace std;
+
+GISRecord::GISRecord(string nfileName) 
+{
+	this->fileName = nfileName;
 }
 
-void GISRecord::display() {
-	cout << month << "/" << day << "/" << year << endl;
+void GISRecord::getFileContent() 
+{
+	ifstream file;
+	file.open(fileName);
+	if (file)
+	{
+		cout << "File Exists" << endl;
+	}
+	else
+	{
+		cout << "file does not exist" << endl;
+	}
+}
+
+void GISRecord::display() 
+{
+	//cout << month << "/" << day << "/" << year << endl;
+	cout << fileName;
+	return;
 }

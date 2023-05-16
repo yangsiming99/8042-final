@@ -1,11 +1,15 @@
 #pragma once
 #include <iostream>
+#include <string.h>
 using namespace std;
 
-class GISRecord {
+class GISRecord 
+{
 private:
-	int day, month, year;
+	string fileName;
+	void getFileContent();
+
 public:
-	GISRecord(int month = 1, int day = 1, int year = 2019);
+	GISRecord(std::string nfileName);
 	void display();
 };
