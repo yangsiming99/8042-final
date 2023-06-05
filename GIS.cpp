@@ -3,38 +3,13 @@
 #include <stdio.h>
 #include <string.h>
 #include <fstream>
-
+#include <vector>
 #include "headers/GIS.h"
 #include "headers/GISRecord.h"
 #include "headers/CommandProcessor.h"
+#include "headers/Logger.h"
 
 using namespace std;
-
-void createDBFile(char fileName[])
-{
-	ifstream file;
-
-	file.open(fileName);
-
-	if (file) 
-	{
-		cout << "File Exists" << endl;
-	}
-	else 
-	{
-		cout << "File does not exist" << endl;
-	}
-}
-
-void checkScriptFile() 
-{
-
-}
-
-void checkLogFile() 
-{
-
-}
 
 int main(int argc, char* argv[])
 {
@@ -46,8 +21,24 @@ int main(int argc, char* argv[])
 	//	printf("%s\n", argv[i]);
 	//}
 
-	CommandProcessor cmd_proc("script01.txt");
-	cmd_proc.check_file();
+	CommandProcessor cmd_proc;
+	string fileName = "script01.txt";
+
+	ifstream file;
+	file.open(fileName);
+	if (file)
+	{
+		string output;
+		ifstream myReadFile(fileName);
+		while (getline(myReadFile, output))
+		{
+			if (output.length() != 0 && output.front() != ';')
+			{
+				vector<string> command = cmd_proc.parse_line(output);
+				cmd_proc.parse_command(command);
+			}
+		}
+	}
 
 	return 0;
 }

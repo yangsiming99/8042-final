@@ -2,18 +2,19 @@
 #define COMMANDPROCESSOR_H
 
 #include <string>
+#include <vector>
 
+using namespace std;
 
 class CommandProcessor
 {
 public:
-	CommandProcessor(std::string file_name);
-	void test();
-	void check_file();
+	CommandProcessor();
+	vector<string> parse_line(string line);
+	void parse_command(vector<string> command);
 
 private:
-	std::string file_name;
-	void parse_line(std::string line);
+	
 
 	//void cmd_world();
 	//void cmd_import();

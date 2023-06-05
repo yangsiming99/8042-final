@@ -3,51 +3,62 @@
 #include <fstream>
 #include <string>
 #include <sstream>
+#include <vector>
 
 using namespace std;
 
-CommandProcessor::CommandProcessor(std::string file_name)
+CommandProcessor::CommandProcessor()
 {
-	this->file_name = file_name;
 }
 
-void CommandProcessor::check_file()
+vector<string> CommandProcessor::parse_line(string line)
 {
-	ifstream file;
-	file.open(file_name);
-	if (file)
-	{
-		string output;
-		ifstream MyReadFile(file_name);
-
-		while (getline(MyReadFile, output))
-		{
-			if (output.length() != 0 && output.front() != ';')
-			{
-				parse_line(output);
-			}
-		}
-	}
-	else
-	{
-		return;
-	}
-}
-
-void CommandProcessor::parse_line(string line)
-{
+	vector <string> cmdContainer;
 	cout << line << endl;
 	std::stringstream ss(line);
 	string word;
 	while (!ss.eof())
 	{
 		getline(ss, word, '\t');
-		cout << word << endl;
+		//cout << word << endl;
+		cmdContainer.push_back(word);
 	}
-	cout << "=========" << endl;
+	//cout << "=========" << endl;
+	return cmdContainer;
 }
 
-void CommandProcessor::test()
+void CommandProcessor::parse_command(vector<string> command)
 {
-	cout << file_name << endl;
+	if (command[0] == "world") 
+	{
+		cout << "DO WORLD" << endl;
+	}
+	else if (command[0] == "import")
+	{
+		cout << "DO IMPORT" << endl;
+	}
+	else if (command[0] == "debug")
+	{
+		cout << "DO DEBUG" << endl;
+	}
+	else if (command[0] == "quit")
+	{
+		cout << "DO QUIT" << endl;
+	}
+	else if (command[0] == "what_is_at")
+	{
+		cout << "DO WHAT_IS_AT" << endl;
+	}
+	else if (command[0] == "what_is")
+	{
+		cout << "DO WHAT_IS" << endl;
+	}
+	else if (command[0] == "what_is_in")
+	{
+		cout << "DO WHAT_IS_IN" << endl;
+	}
+	else
+	{
+		cout << "HOW DID YOU GET HERE?" << endl;
+	}
 }
