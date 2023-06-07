@@ -1,14 +1,14 @@
 #include "../headers/Logger.h"
 #include <string>
+#include <iostream>
 
 using namespace std;
 
 Logger::Logger()
 {
-	cout << "hi" << endl;
 }
 
 void Logger::world_logger()
 {
-
+	cout << "WORLD LOGGER" << endl;
 }

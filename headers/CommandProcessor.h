@@ -11,7 +11,6 @@ class CommandProcessor
 public:
 	CommandProcessor();
 	vector<string> parse_line(string line);
-	void parse_command(vector<string> command);
 
 private:
 	
