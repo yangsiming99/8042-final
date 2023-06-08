@@ -12,11 +12,12 @@
 
 using namespace std;
 
-void parse_commands(vector<string> command, Logger log)
+int global = 20;
+
+void parse_commands(vector<string> command)
 {
 	if (command[0] == "world")
 	{
-		log.world_logger();
 		cout << "DO WORLD" << endl;
 	}
 	else if (command[0] == "import")
@@ -51,17 +52,15 @@ void parse_commands(vector<string> command, Logger log)
 
 int main(int argc, char* argv[])
 {
-	//printf("You have enterd %d arguments: \n", argc);
+	printf("You have enterd %d arguments: \n", argc);
 
-	//createDBFile(argv[1]);
-
-	//for (int i = 0; i < argc; i++) {
-	//	printf("%s\n", argv[i]);
-	//}
+	//argv[0] - database
+	//argv[1] - commandscript
+	//argv[2] - logfile.txt
 
 	CommandProcessor cmd_proc;
 	string fileName = "script01.txt";
-	Logger log;
+	Logger log("fileName");
 
 	ifstream file;
 	file.open(fileName);
@@ -71,10 +70,11 @@ int main(int argc, char* argv[])
 		ifstream myReadFile(fileName);
 		while (getline(myReadFile, output))
 		{
+			log.log_command(output);
 			if (output.length() != 0 && output.front() != ';')
 			{
 				vector<string> command = cmd_proc.parse_line(output);
-				parse_commands(command, log);
+				parse_commands(command);
 			}
 		}
 	}

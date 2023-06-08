@@ -3,14 +3,16 @@
 
 #include <string>
 #include <vector>
+#include <iostream>
+#include <fstream>
 
 using namespace std;
 
 class Logger
 {
 public:
-	Logger();
-	void world_logger();
+	Logger(string fileName);
+	void log_command(string command);
 
 private:
 };
