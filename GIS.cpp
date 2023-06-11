@@ -9,15 +9,18 @@
 #include "headers/GISRecord.h"
 #include "headers/CommandProcessor.h"
 #include "headers/Logger.h"
+#include "headers/SystemManager.h"
 
 using namespace std;
 
 int global = 20;
+SystemManager sysm;
 
 void parse_commands(vector<string> command)
 {
 	if (command[0] == "world")
 	{
+		sysm.set_world(command);
 		cout << "DO WORLD" << endl;
 	}
 	else if (command[0] == "import")
