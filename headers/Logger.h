@@ -12,9 +12,12 @@ class Logger
 {
 public:
 	Logger(string fileName);
-	void log_command(string command);
+	void log_command(string command, int& num);
+	void log_comment(string comment);
+	void create_log_file(string dbFN, string sFN);
 
 private:
+	string get_time();
 };
 
 #endif // !LOGGER_H

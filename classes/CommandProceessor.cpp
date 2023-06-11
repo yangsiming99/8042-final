@@ -14,7 +14,7 @@ CommandProcessor::CommandProcessor()
 vector<string> CommandProcessor::parse_line(string line)
 {
 	vector <string> cmdContainer;
-	cout << line << endl;
+	//cout << line << endl;
 	std::stringstream ss(line);
 	string word;
 	while (!ss.eof())
