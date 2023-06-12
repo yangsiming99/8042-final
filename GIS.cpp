@@ -9,15 +9,18 @@
 #include "headers/GISRecord.h"
 #include "headers/CommandProcessor.h"
 #include "headers/Logger.h"
+#include "headers/SystemManager.h"
 
 using namespace std;
 
 int global = 20;
+SystemManager sysm;
 
 void parse_commands(vector<string> command)
 {
 	if (command[0] == "world")
 	{
+		sysm.set_world(command);
 		cout << "DO WORLD" << endl;
 	}
 	else if (command[0] == "import")
@@ -54,13 +57,19 @@ int main(int argc, char* argv[])
 {
 	printf("You have enterd %d arguments: \n", argc);
 
-	//argv[0] - database
-	//argv[1] - commandscript
-	//argv[2] - logfile.txt
+	//argv[1] - database
+	//argv[2] - commandscript
+	//argv[3] - logfile.txt
 
 	CommandProcessor cmd_proc;
+	GISRecord db("dbfile.txt");
+	db.create_db_file();
+	
+	Logger log("logFile.txt");
+	log.create_log_file(argv[1], argv[2]);
+	int counter = 1;
+
 	string fileName = "script01.txt";
-	Logger log("fileName");
 
 	ifstream file;
 	file.open(fileName);
@@ -70,11 +79,15 @@ int main(int argc, char* argv[])
 		ifstream myReadFile(fileName);
 		while (getline(myReadFile, output))
 		{
-			log.log_command(output);
 			if (output.length() != 0 && output.front() != ';')
 			{
+				log.log_command(output, counter);
 				vector<string> command = cmd_proc.parse_line(output);
 				parse_commands(command);
+			}
+			else
+			{
+				log.log_comment(output);
 			}
 		}
 	}
