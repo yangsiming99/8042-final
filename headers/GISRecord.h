@@ -10,30 +10,32 @@ private:
 
 	string dbFileName;
 
-	int feat_id; //feature_id
+	int offset;
+
+	string feat_id; //feature_id (change to int)
 	string feat_name; //feature_name
 	string feat_class; //featur_class
 
 	string state_alpha; // state alphabet
-	int state_num; //state numeric
+	string state_num; //state numeric (change to int)
 	
 	string country_name; //country name
-	int country_num; //country numeric
+	string country_num; //country numeric (change to int)
 
 	string lat_dms_primary; //should be struct DMS
 	string long_dms_primary; //should be struct DMS
 	
-	double lat_dec_primary:
-	double long_dec_primary;
+	string lat_dec_primary: //(change to double)
+	string long_dec_primary; //(change to double)
 
 	string src_lat_dms;  //should be struct DMS
 	string src_long_dms; //should be struct DMS
 
-	double src_lat_dec;
-	double src_long_dec;
+	string src_lat_dec; //(change to double)
+	string src_long_dec; //(change to double)
 
-	int elevation_m;
-	int elevation_ft;
+	string elevation_m; //change to int
+	string elevation_ft; //change to int
 
 	string map_name;
 
@@ -41,11 +43,16 @@ private:
 	string date_edited; // MM/DD/YYYY format	
 
 public:
-	GISRecord(string dbFile);
+	GISRecord();
+	explicit GISRecord(string dbFile);
 	void create_db_file();
 
 
 	/*getter and setter declarations*/
+	/*Offset*/
+	int getOffset();
+	void setOffset(int off);
+
 	/*Feature*/
 	int getFeat_id();
 	void setFeat_id(int f_id);
