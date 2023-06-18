@@ -1,6 +1,6 @@
 #pragma once
 #include <iostream>
-#include <string.h>
+#include <string>
 
 using namespace std;
 
@@ -8,9 +8,10 @@ class GISRecord
 {
 private:
 
-	string dbFileName;
+	//string dbFileName;
 
-	int offset;
+	int offset; //number of bytes from start of gis file (not sure if we are accounting this when we process. 
+	//														Most likely it's in use somehwere)
 
 	string feat_id; //feature_id (change to int)
 	string feat_name; //feature_name
@@ -43,9 +44,18 @@ private:
 	string date_edited; // MM/DD/YYYY format	
 
 public:
-	GISRecord();
-	explicit GISRecord(string dbFile);
-	void create_db_file();
+	GISRecord(); //default constructor
+
+	//get ready
+	GISRecord(int off, string id_feat, string name_feat, string class_feat, 
+		string alpha_state, string num_state, string name_country, string num_country, 
+		string dms_primary_lat, string dms_primary_long, string dec_primary_lat, 
+		string dec_primary_long, string dms_src_lat, string dms_src_long, 
+		string dec_src_lat, string dec_src_long, string m_elevation, string ft_elevation, 
+		string mapName,string createdDate, string editedDate, // MM/DD/YYYY format	
+);
+	
+	//void create_db_file();
 
 
 	/*getter and setter declarations*/
