@@ -23,12 +23,29 @@
 
 #include <string>
 #include <fstream>
-#include "../headers/GISRecord.h"
+#include <vector>
+#include "../headers/GisRecord.h"
 
 using namespace std;
 class BufferPool
 {
     public:
+
+    /*
+    Node in Buffer Pool cache. 
+    Contains a GISRecord, 
+    2 pointers - one points to next record
+                 one points to previous record
+    */
+    struct cacheNode
+    {
+        cacheNode *prev_node;
+        cacheNode *next_node;
+        GISRecord *record; //current record. (pointer to GISRecord)
+    };
+
+    vector<cacheNode> cache; //doubly linked list that BufferPool maintains
+
     BufferPool(); //create an empty cache 
     explicit BufferPool(string dbFilePath);
 
@@ -62,12 +79,12 @@ class BufferPool
     2 pointers - one points to next record
                  one points to previous record
     */
-    struct cacheNode
-    {
-        cacheNode *prev_node;
-        cacheNode *next_node;
-        GISRecord *record; //current record. (pointer to GISRecord)
-    };
+    // struct cacheNode
+    // {
+    //     cacheNode *prev_node;
+    //     cacheNode *next_node;
+    //     GISRecord record; //current record. (pointer to GISRecord)
+    // };
 
 
     // cacheNode dummyNode = 
@@ -76,7 +93,7 @@ class BufferPool
     //     next_node = NULL;
 
     // }; //dummy node which indicates end of the list
-    vector<cacheNode> cache; //doubly linked list that BufferPool maintains
+    // vector<cacheNode> cache; //doubly linked list that BufferPool maintains
     string dbPath; //database file path
     
     /*Operations of a doubly linked list*/

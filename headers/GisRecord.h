@@ -26,7 +26,7 @@ private:
 	string lat_dms_primary; //should be struct DMS
 	string long_dms_primary; //should be struct DMS
 	
-	string lat_dec_primary: //(change to double)
+	string lat_dec_primary; //(change to double)
 	string long_dec_primary; //(change to double)
 
 	string src_lat_dms;  //should be struct DMS
@@ -52,8 +52,8 @@ public:
 		string dms_primary_lat, string dms_primary_long, string dec_primary_lat, 
 		string dec_primary_long, string dms_src_lat, string dms_src_long, 
 		string dec_src_lat, string dec_src_long, string m_elevation, string ft_elevation, 
-		string mapName,string createdDate, string editedDate, // MM/DD/YYYY format	
-);
+		string mapName,string createdDate, string editedDate // MM/DD/YYYY format	
+	);
 	
 	//void create_db_file();
 
@@ -64,7 +64,7 @@ public:
 	void setOffset(int off);
 
 	/*Feature*/
-	int getFeat_id();
+	string getFeat_id();
 	void setFeat_id(int f_id);
 
 	string getFeat_name();
@@ -77,14 +77,14 @@ public:
 	string getState_alpha();
 	void setState_alpha(string alpha);
 
-	int getState_num();
+	string getState_num();
 	void setState_num(int num);
 
 	/*Country*/
 	string getCountry_name();
 	void setCounty_name(string country);
 
-	int getCountry_num();
+	string getCountry_num();
 	void setCountry_num(int num);
 
 	/*Latitude/Longitude*/
@@ -95,10 +95,10 @@ public:
 	string getLong_DMS_prim();
 	void setLong_DMS_prim(string long_dms);
 	/*Decimal*/
-	double getLat_Dec_prim();
-	void setLat_Dec_prim(double lat_dec);
-	double getLong_Dec_prim();
-	void setLong_Dec_prim(double long_dec);
+	string getLat_Dec_prim();
+	void setLat_Dec_prim(string lat_dec);
+	string getLong_Dec_prim();
+	void setLong_Dec_prim(string long_dec);
 	
 	/*Source Lat/Long */
 	/*DMS*/
@@ -107,16 +107,16 @@ public:
 	string getLong_DMS_src();
 	void setLong_DMS_src(string long_dms);
 	/*Decimal*/
-	double getLat_Dec_src();
-	void setLat_Dec_src(double lat_dec);
-	double getLong_Dec_src();
-	void setLong_Dec_src(double long_dec);
+	string getLat_Dec_src();
+	void setLat_Dec_src(string lat_dec);
+	string getLong_Dec_src();
+	void setLong_Dec_src(string long_dec);
 
 	/*Elevation*/
-	int getElevation_m();
-	void setElevation_m(int m);
-	int getElevation_ft();
-	void setElevation_ft(int ft);
+	string getElevation_m();
+	void setElevation_m(string m);
+	string getElevation_ft();
+	void setElevation_ft(string ft);
 
 	/*Map Name*/
 	string getMap_name();

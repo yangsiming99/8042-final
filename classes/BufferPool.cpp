@@ -1,37 +1,39 @@
 #include <string>
 #include <fstream>
 #include <cstdlib>
+#include <vector>
 #include "../headers/BufferPool.h"
-#include "../headers/GISRecord.h"
+#include "../headers/GisRecord.h"
 
 using namespace std;
 
-explicit BufferPool::BufferPool(string dbFilePath)
+BufferPool::BufferPool(string dbFilePath)
 {
-    this.dbPath = dbFilePath;
-    this.cache = {}; //empty cache
+    this->dbPath = dbFilePath;
+    this->cache = {}; //empty cache
 }
 
 GISRecord BufferPool::processTxt(string rawText, int off)
 {
-    vector<string> parameters;
+    vector<string> parameters = {};
+    string current = ""; //current parameter value
     for (char c : rawText) //for each character in rawText
     {
-        string current = ""; //current parameter value
         if( c != '|') // if it is not a pipe character
         {
             current += c; //add c to current parameter
         }
-        else if (c == "|") //if we encounter a pipe
+        else if (c == '|') //if we encounter a pipe
         {
-            parameters.append(current); //append whatever we have read to parameters
+            parameters.push_back(current); //append whatever we have read to parameters
+            current = ""; //reset the string
         }
     }
-    GISRecord *new_record(off,parameters[0],parameters[1],parameters[2],parameters[3],
+    GISRecord new_record = GISRecord{off,parameters[0],parameters[1],parameters[2],parameters[3],
     parameters[4],parameters[5],parameters[6],parameters[7],
     parameters[8],parameters[9],parameters[10],parameters[11],
     parameters[12],parameters[13],parameters[14],parameters[15],
-    parameters[16],parameters[17],parameters[18],parameters[19]);
+    parameters[16],parameters[17],parameters[18],parameters[19]};
 
     return new_record;
 
@@ -41,25 +43,25 @@ void BufferPool::fillCache_db()
 {
     //open db file
     fstream dbFile;
-    dbFile.open(this.dbPath,ios::in); //input mode
+    dbFile.open(this->dbPath,ios::in); //input mode
 
-    vector<GISRecord> record_cache; //helper vector which we convert to double link list later
+    vector<GISRecord> record_cache = {}; //helper vector which we convert to double link list later
     
     //go through each line until Line Feed (ASCII 10) is encountered
-    if(dbFile.isopen())
+    if(dbFile.is_open())
     {
         dbFile.ignore(265); //the titles in the db columns altogether make 264 char. "\n" after makes 265
                             //in Windows, Carriage Return + Line Feed makes End-Of-Line, so might act weird
         string line;
         int length = 0;
-        GISRecord new_record;
+        //GISRecord new_record = GISRecord();
         while(getline(dbFile,line))
         {
-            int length += line.length(); //offset keeps being added
+            length += line.length(); //offset keeps being added
             //process the string read to a GISRecord.
-            new_record = processTxt(line,length);
+            GISRecord new_record = processTxt(line,length);
             //insert to cache at the end
-            record_cache.append(new_record);
+            record_cache.push_back(new_record);
             //if cache already 15, remove the first record, insert new_record to 15th position
             if(record_cache.size() == 15)
             {
@@ -78,7 +80,7 @@ void BufferPool::fillCache_db()
         cout << "error opening DB File (BufferPoool::fillCache_db() method)" << endl;
     }
     dbFile.close(); //close the file stream
-    
+
     //whatever vector of GISRecords we have now,
     //the last index is most recently processed
 
@@ -93,9 +95,9 @@ void BufferPool::fillCache_db()
         cacheNode new_node_temp;
         new_node_temp.prev_node = NULL;
         new_node_temp.next_node = NULL;
-        new_node_temp.record = record_cache[0];
+        new_node_temp.record = &record_cache[0];
 
-        cache.append(new_node_temp);
+        cache.push_back(new_node_temp);
     }
     else
     {
@@ -104,13 +106,13 @@ void BufferPool::fillCache_db()
             cacheNode new_node_temp;
             new_node_temp.prev_node = NULL;
             new_node_temp.next_node = NULL;
-            new_node_temp.record = record_cache[x];
+            new_node_temp.record = &record_cache[x];
 
-            cache.append(new_node_temp); //most recent is last index 
+            cache.push_back(new_node_temp); //most recent is last index 
         } //GISRecord objects have been added
 
         //our cache of Nodes has been pre filled with the most recent being the last
-        for(int i = 0; i < ache.size(); ++i)
+        for(int i = 0; i < cache.size(); ++i)
         {
             if(i == (cache.size()-1)) //if index is 14 or last GISRecord (most recently processed)
             {   
@@ -148,6 +150,14 @@ void BufferPool::fillCache_db()
 /*main function to test BufferPool functionality*/
 int main (void)
 {
+    string dbPath = "../files/VA_Monterey.txt";
+    BufferPool *pool = new BufferPool(dbPath);
+
+    pool->fillCache_db();
+    for(BufferPool::cacheNode n : pool->cache)
+    {
+        cout << n.record->getFeat_id() << endl;
+    }
     
 }
 
