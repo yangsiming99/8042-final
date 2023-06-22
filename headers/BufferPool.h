@@ -32,11 +32,25 @@ class BufferPool
     BufferPool(); //create an empty cache 
     explicit BufferPool(string dbFilePath);
 
-    fillCache(); //initiate pool cache from db file (the last 15 records, or however available if under 15)
+    //initiate pool cache from db file (the last 15 records, or however available if under 15)
+    //At the moment, this is the function that is interacting directly with the DB file
+    //if we can have a function that interacts with something more indexed, we can reduce time cost
+    void fillCache_db(); 
 
-     
-    GISRecord *processTxt(string rawText, int off); //returning a reference, fancy
+    GISRecord processTxt(string rawText, int off); //return by value
 
+    /*Some Buffer Pool functionality*/
+    /*atm, seems like Name Index and Co-ords Index will do more work on the DB*/
+    /*get a record from cache*/ 
+        //when not in cache, we have to consult the DB
+    GISRecord getRecord();
+    /*remove a record from cache*/
+        //when not in cache, are we removing from DB?
+    void deleteRecord(); 
+    /*insert this record into the cache*/
+        //remove Least recently used if cache full
+    void insertRecord();
+    
     /*getters and setters*/
     string getDbPath();
     void setDbPath(string dbFilePath);
@@ -52,7 +66,7 @@ class BufferPool
     {
         cacheNode *prev_node;
         cacheNode *next_node;
-        GISRecord& record; //current record. A reference
+        GISRecord *record; //current record. (pointer to GISRecord)
     };
 
 
@@ -66,6 +80,7 @@ class BufferPool
     string dbPath; //database file path
     
     /*Operations of a doubly linked list*/
+    
     cacheNode getNode();
 
     //insertion at beginning
