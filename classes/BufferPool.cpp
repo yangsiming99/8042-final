@@ -7,6 +7,7 @@
 
 using namespace std;
 
+
 BufferPool::BufferPool(string dbFilePath)
 {
     this->dbPath = dbFilePath;
@@ -63,7 +64,7 @@ void BufferPool::fillCache_db()
             //insert to cache at the end
             record_cache.push_back(new_record);
             //if cache already 15, remove the first record, insert new_record to 15th position
-            if(record_cache.size() == 15)
+            if(record_cache.size() >= 15)
             {
                 //go from index 1, move every record, negative one index 
                 for(int index = 1; index < 15; ++index) //an O(15) operation
@@ -72,6 +73,7 @@ void BufferPool::fillCache_db()
                 }
                 //add the new (processed) record to last index
                 record_cache[14] = new_record;
+                record_cache.resize(15);
             }
         } //EOF reached
     }
@@ -154,9 +156,13 @@ int main (void)
     BufferPool *pool = new BufferPool(dbPath);
 
     pool->fillCache_db();
+    int x = 0;
     for(BufferPool::cacheNode n : pool->cache)
     {
-        cout << n.record->getFeat_id() << endl;
+        cout << x <<". "<<n.record->getFeat_id() << endl;
+        cout <<"next node:" << "\t" << n.next_node << endl;
+        cout <<"prev node:" << "\t" << n.prev_node << endl;
+        x++;
     }
     
 }

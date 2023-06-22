@@ -10,6 +10,20 @@ using namespace std;
 // ofstream db_File;
 // string dbFileName;
 
+GISRecord::GISRecord()
+:  offset(0), feat_id(""), feat_name(""), feat_class(""),
+	state_alpha(""), state_num(""), country_name(""),
+	country_num(""), 
+	lat_dms_primary(""),long_dms_primary(""),
+	lat_dec_primary(""), long_dec_primary(""), 
+	src_lat_dec(""), src_long_dec(""),
+	src_lat_dms(""), src_long_dms(""),
+	elevation_m(""), elevation_ft(""),
+	map_name(""), date_created(""), date_edited("")
+	{
+
+	}
+
 GISRecord::GISRecord(int off, string id_feat, string name_feat, string class_feat, 
 		string alpha_state, string num_state, string name_country, string num_country, 
 		string dms_primary_lat, string dms_primary_long, string dec_primary_lat, 
