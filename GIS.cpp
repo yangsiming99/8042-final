@@ -62,8 +62,8 @@ int main(int argc, char* argv[])
 	//argv[3] - logfile.txt
 
 	CommandProcessor cmd_proc;
-	GISRecord db("dbfile.txt");
-	db.create_db_file();
+	// GISRecord db("dbfile.txt");
+	// db.create_db_file();
 	
 	Logger log("logFile.txt");
 	log.create_log_file(argv[1], argv[2]);

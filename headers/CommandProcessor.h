@@ -11,10 +11,11 @@ class CommandProcessor
 public:
 	CommandProcessor();
 	vector<string> parse_line(string line);
+	//enum{all the commands};
 
 private:
 	
-
+	//void read_cmd(); //depending on arguments, call the specific command from this function.
 	//void cmd_world();
 	//void cmd_import();
 	//void cmd_debug();
