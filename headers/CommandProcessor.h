@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include <ostream>
 
 using namespace std;
 
@@ -11,11 +12,13 @@ class CommandProcessor
 public:
 	CommandProcessor();
 	vector<string> parse_line(string line);
+	void cmd_import(vector<string> cmd, vector<double>);
+	void create_db_file();
+	string db_fileName;
 	//enum{all the commands};
 
 private:
-	
-	//void read_cmd(); //depending on arguments, call the specific command from this function.
+	//void read_cmd(); //depending on arguments, call the specific command from this function. check GIS.CPP and the Parse Commands function
 	//void cmd_world();
 	//void cmd_import();
 	//void cmd_debug();

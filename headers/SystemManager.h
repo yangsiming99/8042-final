@@ -13,6 +13,7 @@ class SystemManager
 public:
 	SystemManager();
 	void set_world(vector<string> world_cmd);
+	vector<double> get_bounds();
 
 private:
 	double westLong;

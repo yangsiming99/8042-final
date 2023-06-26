@@ -18,6 +18,13 @@ void SystemManager::set_world(vector<string> world_cmd)
 	northLat = convert_dms_to_dec(world_cmd[4]);
 }
 
+vector<double> SystemManager::get_bounds()
+{
+	vector<double> coordinates;
+	coordinates.insert(coordinates.end(), { westLong, eastLong, northLat, southLat });
+	return coordinates;
+}
+
 double SystemManager::convert_dms_to_dec(string dms)
 {
 	if (dms.length() < 8)

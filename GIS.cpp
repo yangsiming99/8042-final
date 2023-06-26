@@ -15,6 +15,7 @@ using namespace std;
 
 int global = 20;
 SystemManager sysm;
+CommandProcessor cmd_proc;
 
 void parse_commands(vector<string> command)
 {
@@ -25,6 +26,7 @@ void parse_commands(vector<string> command)
 	}
 	else if (command[0] == "import")
 	{
+		cmd_proc.cmd_import(command, sysm.get_bounds());
 		cout << "DO IMPORT" << endl;
 	}
 	else if (command[0] == "debug")
@@ -61,14 +63,14 @@ int main(int argc, char* argv[])
 	//argv[2] - commandscript
 	//argv[3] - logfile.txt
 
-	CommandProcessor cmd_proc;
 	// GISRecord db("dbfile.txt");
 	// db.create_db_file();
-	
+
 	Logger log("logFile.txt");
 	log.create_log_file(argv[1], argv[2]);
 	int counter = 1;
-
+	cmd_proc.db_fileName = "dbfile.txt";
+	cmd_proc.create_db_file();
 	string fileName = "script01.txt";
 
 	ifstream file;

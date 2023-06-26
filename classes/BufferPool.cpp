@@ -150,6 +150,7 @@ void BufferPool::fillCache_db()
 }
 
 /*main function to test BufferPool functionality*/
+/*
 int main (void)
 {
     string dbPath = "../files/VA_Monterey.txt";
@@ -166,5 +167,6 @@ int main (void)
     }
     
 }
+*/
 
 
