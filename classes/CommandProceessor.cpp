@@ -1,4 +1,5 @@
 #include "../headers/CommandProcessor.h"
+#include "../headers/NameIndex.h"
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -31,7 +32,7 @@ vector<string> CommandProcessor::parse_line(string line)
 	return cmdContainer;
 }
 
-void CommandProcessor:: cmd_import(vector<string> cmd, vector<double> bounds) {
+void CommandProcessor:: cmd_import(vector<string> cmd, vector<double> bounds, NameIndex ni) {
 	ifstream file;
 	vector<string> accepted;
 	int counter = 0;
@@ -55,6 +56,7 @@ void CommandProcessor:: cmd_import(vector<string> cmd, vector<double> bounds) {
 
 					cmdContainer.push_back(word);
 				}
+				ni.add_location(cmdContainer[1], cmdContainer[3]);
 				double lati = stod(cmdContainer[9]);
 				double longi = stod(cmdContainer[10]);
 				int test = 0;

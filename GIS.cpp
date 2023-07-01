@@ -10,12 +10,14 @@
 #include "headers/CommandProcessor.h"
 #include "headers/Logger.h"
 #include "headers/SystemManager.h"
+#include "headers/NameIndex.h"
 
 using namespace std;
 
 int global = 20;
 SystemManager sysm;
 CommandProcessor cmd_proc;
+NameIndex ni;
 
 void parse_commands(vector<string> command)
 {
@@ -26,7 +28,7 @@ void parse_commands(vector<string> command)
 	}
 	else if (command[0] == "import")
 	{
-		cmd_proc.cmd_import(command, sysm.get_bounds());
+		cmd_proc.cmd_import(command, sysm.get_bounds(), ni);
 		cout << "DO IMPORT" << endl;
 	}
 	else if (command[0] == "debug")
@@ -93,6 +95,8 @@ int main(int argc, char* argv[])
 			}
 		}
 	}
+
+	ni.display();
 
 	return 0;
 }

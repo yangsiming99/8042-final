@@ -1,6 +1,7 @@
 #ifndef COMMANDPROCESSOR_H
 #define COMMANDPROCESSOR_H
 
+#include "../headers/NameIndex.h"
 #include <string>
 #include <vector>
 #include <ostream>
@@ -12,7 +13,7 @@ class CommandProcessor
 public:
 	CommandProcessor();
 	vector<string> parse_line(string line);
-	void cmd_import(vector<string> cmd, vector<double>);
+	void cmd_import(vector<string> cmd, vector<double>, NameIndex ni);
 	void create_db_file();
 	string db_fileName;
 	//enum{all the commands};
