@@ -1,7 +1,10 @@
 #include <string>
+#include <iostream> 
 #include <fstream>
 #include <cstdlib>
+#include <iterator>
 #include <vector>
+#include <map>
 #include "../headers/BufferPool.h"
 #include "../headers/GISRecord.h"
 
@@ -13,6 +16,7 @@ BufferPool::BufferPool()
     this->dbPath = "";
     // this->cache = {}; //empty cache
     this->recordCache = {};
+    //this->cacheMap; //<int,GISRecord *>
 }
 
 BufferPool::BufferPool(string dbFilePath)
@@ -20,7 +24,10 @@ BufferPool::BufferPool(string dbFilePath)
     this->dbPath = dbFilePath;
     // this->cache = {}; //empty cache
     this->recordCache = {};
+    //this->cacheMap; //<int,GISRecord *>
 }
+
+
 
 GISRecord BufferPool::processTxt(string rawText, int off)
 {
@@ -62,13 +69,14 @@ void BufferPool::fillCache_db()
         dbFile.ignore(265); //the titles in the db columns altogether make 264 char. "\n" after makes 265
                             //in Windows, Carriage Return + Line Feed makes End-Of-Line, so might act weird
         string line;
-        int length = 0;
+        int length = 265;
+        int mapIndex = 0; 
         //GISRecord new_record = GISRecord();
         while(getline(dbFile,line))
         {
-            length += line.length(); //offset keeps being added
             //process the string read to a GISRecord.
-            GISRecord new_record = processTxt(line,length);
+            GISRecord new_record = processTxt(line,length); //first record, has offset of 265
+            length += line.length(); //offset keeps being added. we count \n in offset
             //insert to cache at beginning
             this->recordCache.push_front(new_record);
             //if cache already 15, remove the last record. Last record is least recently used
@@ -158,19 +166,122 @@ void BufferPool::fillCache_db()
 
 }
 
+
+//if time, implement operators for GISRecord
+GISRecord* BufferPool::getRecord(GISRecord* rec)
+{
+    int searchRes = lookFor(rec);
+     
+    if (searchRes == -1)
+    {
+        return nullptr;
+    }
+    else
+    {
+        list<GISRecord>::iterator cache_it = this->recordCache.begin(); 
+        advance(cache_it,(searchRes)); //advance iterator. 
+        GISRecord new_rec = *cache_it;
+        this->recordCache.erase(cache_it); //erase the record found AT iterator position
+        this->recordCache.push_front(new_rec);
+
+        cache_it = this->recordCache.begin(); //readjust the iterator
+        return &(*cache_it); //return pointer to the first record in cache
+    }
+
+}
+
+//helper function. private access
+int BufferPool::lookFor(GISRecord* target)
+{
+    int result = -1;
+    int index = 0;
+    for(GISRecord r : this->recordCache)
+    {   
+        //counting feature id and state alphabet for now
+        if(target->getFeat_name() == r.getFeat_name() 
+            &&  target->getState_alpha() == r.getState_alpha())
+        {
+            result = index;
+        }
+        index ++;
+    }
+    return result;
+}
+
+/*remove a record from cache*/
+    //when not in cache, are we removing from DB?
+void BufferPool::deleteRecord(GISRecord* rec)
+{
+    int searchRes = lookFor(rec);
+     
+    if (searchRes == -1)
+    {
+        cout << "record not found in cache " << endl;
+    }
+    else
+    {
+        list<GISRecord>::iterator cache_it = this->recordCache.begin(); 
+        advance(cache_it,(searchRes)); //advance iterator.
+        this->recordCache.erase(cache_it); //erase the record found AT iterator position
+    }
+}
+
+/*insert this record into the cache*/
+    //remove Least recently used if cache full
+void BufferPool::insertRecord(GISRecord* rec)
+{
+    
+    int searchRes = lookFor(rec);
+     
+    if (searchRes == -1) //if not exist
+    {
+        //push to front
+        this->recordCache.push_front(*rec);
+        
+        //readjust if size is > 15 after push
+        while(this->recordCache.size() > 15)
+        {   
+            //remove the last one
+            this->recordCache.pop_back();
+        }
+    }
+    else //if record exist
+    {  
+        //copy it
+        list<GISRecord>::iterator cache_it = this->recordCache.begin(); 
+        advance(cache_it,(searchRes)); //advance iterator.
+        GISRecord new_rec = *cache_it;
+
+        //remove it at current pos
+        this->recordCache.erase(cache_it);
+        //push it to front
+        this->recordCache.push_front(new_rec);
+
+        //readjust if size > 15
+        while(this->recordCache.size() > 15)
+        {
+            //remove the last one
+            this->recordCache.pop_back();
+        }
+    }
+}
+
 //add more details is needed after
 void BufferPool::str()
 {   
     //vector<GISRecord> helper_vec = {};
     int i = 0;
+    cout << "Feat_Name\t|\tState Alphabet" << endl;
     for(GISRecord rec : this->recordCache)
     {
-        cout << i+1 << ". " << rec.getFeat_id() << "\t|\t" << rec.getState_alpha() << endl;
+        cout << i+1 << ". " << rec.getFeat_name() << "\t: \t" << rec.getState_alpha() << endl;
         i++;
     }
 }
-/*main function to test BufferPool functionality*/
 
+
+
+/*main function to test BufferPool functionality*/
 int main (void)
 {
     string dbPath = "../files/VA_Monterey.txt";
@@ -186,6 +297,7 @@ int main (void)
     //     x++;
     // }
     pool->str();
+
 
 }
 

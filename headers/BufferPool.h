@@ -3,16 +3,23 @@
     use Least Recently Used (LRU) replacement
 
     not implementing anything at the moment for world and import command
-    choosing import command to bypass BufferPool and instantiate records into our DB file directly    
+    import command bypasses BufferPool and instantiate records into our DB file directly    
 
     commands to respond to: 
-    debug pool
+    debug pool - str() function
     quit
     what_is_at <geographic co-ordinates>
     what_is <feature-name> <state-abbreviation>
     what_is_in <geographic co-ordinates> <half-height> <half-width> [optional: -long OR -filter]
 
-    using std::list as it is a pre build double link list
+    using std::list as it is a pre build double link list - covers most functionality we need from container
+    
+    At current state, requires search function to search for a specific record. 
+    to improve lookup map used to index the cache.OPTIONAL FOR NOW
+        either have to finalize GISRecord operators which we have to do anyway
+        Figure out how to index and maintain at 15 records. Also need to remember LRU Replacement
+    
+    *****O(N) is not bad price to pay, to avoid bugs and not use <map> altogether
 */
 #ifndef BUFFERPOOL_H
 #define BUFFERPOOL_H
@@ -20,8 +27,11 @@
 #define CACHE_LIMIT 15
 
 #include <string>
-#include <fstream>
+#include <iostream>  //good for machine io (stdio, stderr, stdout, stdlog)
+#include <fstream> //good for files
 #include <vector>
+#include <iterator>
+#include <map> //remove at the end of project if not implemented
 #include <list> //already is a double link list
 #include "../headers/GISRecord.h"
 
@@ -32,7 +42,7 @@ class BufferPool
 
     list<GISRecord> recordCache; // the LRU Replacement cache we will use
     string dbPath;
-    // map<int,GISRecord> caceMap; // map used to index the cache, to reduce retrieval. OPTIONAL FOR NOW
+    //map<int,GISRecord*> cacheMap; // map used to index the cache, to reduce retrieval.OPTIONAL FOR NOW
 
 
     /*
@@ -68,15 +78,15 @@ class BufferPool
     /*atm, seems like Name Index and Co-ords Index will do more work on the DB*/
     /*get a record from cache*/ 
         //when not in cache, we have to consult the DB
-    GISRecord getRecord(GISRecord * rec);
+    GISRecord* getRecord(GISRecord* rec);
 
     /*remove a record from cache*/
         //when not in cache, are we removing from DB?
-    void deleteRecord(GISRecord * rec); 
+    void deleteRecord(GISRecord* rec); 
 
     /*insert this record into the cache*/
         //remove Least recently used if cache full
-    void insertRecord(GISRecord * rec);
+    void insertRecord(GISRecord* rec);
     
     //implement a str() that will be used in debug command
     void str();
@@ -87,5 +97,28 @@ class BufferPool
     
     private:
 
+    //-1 is not found. 0 or more is index of found record
+    // -1 is not found
+    // any other number, zero or positive, should be index of record in cache
+    int lookFor(GISRecord* target);
+
 };
 #endif
+
+/*Built in from std::list
+    push front
+    pop front
+
+    push back
+    pop back
+
+    insert BEFORE index
+
+    remove element AT index
+
+    resize the double link list
+
+    --------------------------------------
+    Have to implement:
+    search function to search for a specific record. 
+*/
