@@ -1,15 +1,15 @@
-#include "../headers/GisRecord.h"
+#include "../headers/GISRecord.h"
 #include <string>
 #include <fstream>
 #include <iostream>
 
 using namespace std;
 
-//idk, use this for database stuff I guess
 
 // ofstream db_File;
 // string dbFileName;
 
+//constructor default
 GISRecord::GISRecord()
 :  offset(0), feat_id(""), feat_name(""), feat_class(""),
 	state_alpha(""), state_num(""), country_name(""),
@@ -23,7 +23,7 @@ GISRecord::GISRecord()
 	{
 
 	}
-
+//constructor parameterized
 GISRecord::GISRecord(int off, string id_feat, string name_feat, string class_feat, 
 		string alpha_state, string num_state, string name_country, string num_country, 
 		string dms_primary_lat, string dms_primary_long, string dec_primary_lat, 
