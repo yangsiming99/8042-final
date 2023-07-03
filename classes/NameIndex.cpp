@@ -1,4 +1,5 @@
 #include "../headers/NameIndex.h"
+#include "../headers/GisRecord.h"
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -10,44 +11,106 @@
 using namespace std;
 
 int arrsize = 5;
-string* Name_Index = new string[arrsize];
+string* keys = new string[arrsize];
+GISRecord* Name_Index = new GISRecord[arrsize];
 int pos = 0;
 
 NameIndex::NameIndex()
 {
 }
 
-void NameIndex::up_size()
+int NameIndex::hashFunction(string key)
 {
-    arrsize = arrsize * 2;
-    string* nName_index = new string[arrsize];
-    for (int i = 0; i < pos; i++) {
-        nName_index[i] = Name_Index[i];
+    int hash = 0;
+    for (char c : key)
+    {
+        hash += c;
     }
-    delete[] Name_Index;
-    Name_Index = nName_index;
+    return hash % arrsize;
 }
 
-void NameIndex::add_location(string feature_name, string state_abbr)
+void NameIndex::insert_location(vector<string> data_container, int offset)
 {
-    double filled = static_cast<double>(pos) / arrsize;
-    if (filled > 0.7) {
-        up_size();
+    int index = hashFunction(data_container[1]);
+    int att = 0;
+    while (keys[index] != "")
+    {
+        att++;
+        index = (index + att * att) % arrsize;
     }
-    Name_Index[pos] = format("{}|{}", feature_name, state_abbr);
-    pos++;
+    keys[index] = data_container[1];
+    GISRecord entry(offset, data_container[0], data_container[1], data_container[2], data_container[3], data_container[4],
+        data_container[5], data_container[6], data_container[7], data_container[8], data_container[9],
+        data_container[10], data_container[11], data_container[12], data_container[13], data_container[14],
+        data_container[15], data_container[16], data_container[17], data_container[18], data_container[19]
+    );
+    Name_Index[index] = entry;
+    
+    int filled = 0;
+    for (int i = 0; i < arrsize; i++)
+    {
+        if (!keys[i].empty())
+        {
+            filled ++;
+        }
+    }
+
+    double fill_percent = static_cast<double>(filled) / arrsize;
+    if(fill_percent >= 0.75)
+    {
+        resize_hash();
+    }
+}
+
+GISRecord NameIndex::get_location(string loc) {
+    int index = hashFunction(loc);
+    while (keys[index] != "")
+    {
+        string test = keys[index];
+        if (keys[index] == loc)
+        {
+            return Name_Index[index];
+        }
+    }
+    return GISRecord();
+}
+
+void NameIndex::resize_hash()
+{
+    int narrsize = arrsize * 2;
+    string* nkeys = new string[narrsize];
+    GISRecord* nName_Index = new GISRecord[narrsize];
+
+    for (int i = 0; i < arrsize; i++)
+    {
+        if (!keys[i].empty()) {
+            int nIndex = hashFunction(keys[i]) % narrsize;
+            int att = 0;
+            while (!nkeys[nIndex].empty())
+            {
+                att++;
+                nIndex = (nIndex + att * att) % narrsize;
+            }
+            nkeys[nIndex] = keys[i];
+            nName_Index[nIndex] = Name_Index[i];
+        }
+    }
+
+    delete[] keys;
+    delete[] Name_Index;
+    keys = nkeys;
+    Name_Index = nName_Index;
+    arrsize = narrsize;
 }
 
 void NameIndex::display()
 {
-    for (int i = 0; i < pos; i++) 
+    cout << "=============================" << endl;
+    for (int i = 0; i < arrsize; i++)
     {
-        stringstream ss(Name_Index[i]);
-        string part;
-        while (getline(ss, part, '|'))
+        if (!keys[i].empty())
         {
-            cout << part << " ";
+            cout << "Index: " << i << " Key: " << keys[i] << endl;
         }
-        cout << endl;
     }
 }

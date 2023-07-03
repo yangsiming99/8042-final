@@ -49,16 +49,15 @@ void CommandProcessor:: cmd_import(vector<string> cmd, vector<double> bounds, Na
 				bool acc = true;
 				stringstream ss(output);
 				string word;
-				vector<string> cmdContainer;
+				vector<string> data_container;
 				while (!ss.eof())
 				{
 					getline(ss, word, '|');
 
-					cmdContainer.push_back(word);
+					data_container.push_back(word);
 				}
-				ni.add_location(cmdContainer[1], cmdContainer[3]);
-				double lati = stod(cmdContainer[9]);
-				double longi = stod(cmdContainer[10]);
+				double lati = stod(data_container[9]);
+				double longi = stod(data_container[10]);
 				int test = 0;
 				if (lati > bounds[2] || lati < bounds[3])
 				{
@@ -70,6 +69,9 @@ void CommandProcessor:: cmd_import(vector<string> cmd, vector<double> bounds, Na
 				}
 				if (acc)
 				{
+					//ni.add_location(counter, data_container);
+					ni.insert_location(data_container, counter);
+					//ni.display();
 					accepted.push_back(output);
 				}
 			}

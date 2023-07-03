@@ -29,6 +29,7 @@ void parse_commands(vector<string> command)
 	else if (command[0] == "import")
 	{
 		cmd_proc.cmd_import(command, sysm.get_bounds(), ni);
+		//ni.get_location("Asbury Church");
 		cout << "DO IMPORT" << endl;
 	}
 	else if (command[0] == "debug")
