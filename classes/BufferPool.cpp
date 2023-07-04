@@ -282,24 +282,24 @@ void BufferPool::str()
 
 
 /*main function to test BufferPool functionality*/
-int main (void)
-{
-    string dbPath = "../files/VA_Monterey.txt";
-    BufferPool *pool = new BufferPool(dbPath);
-
-    pool->fillCache_db();
-    int x = 0;
-    // for(BufferPool::cacheNode n : pool->cache)
-    // {
-    //     cout << x <<". "<<n.record->getFeat_id() << endl;
-    //     cout <<"next node:" << "\t" << n.next_node << endl;
-    //     cout <<"prev node:" << "\t" << n.prev_node << endl;
-    //     x++;
-    // }
-    pool->str();
-
-
-}
+//int main (void)
+//{
+//    string dbPath = "../files/VA_Monterey.txt";
+//    BufferPool *pool = new BufferPool(dbPath);
+//
+//    pool->fillCache_db();
+//    int x = 0;
+//    // for(BufferPool::cacheNode n : pool->cache)
+//    // {
+//    //     cout << x <<". "<<n.record->getFeat_id() << endl;
+//    //     cout <<"next node:" << "\t" << n.next_node << endl;
+//    //     cout <<"prev node:" << "\t" << n.prev_node << endl;
+//    //     x++;
+//    // }
+//    pool->str();
+//
+//
+//}
 
 
 

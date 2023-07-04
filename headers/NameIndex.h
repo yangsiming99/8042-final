@@ -13,13 +13,14 @@ class NameIndex
 {
 public:
 	NameIndex();
-	void add_location(int line, vector<string> data_container);
 	void display();
 	void insert_location(vector<string> data_container, int offset);
 	GISRecord get_location(string loc);
+	vector<int> get_stats();
+	string* get_keys();
+	GISRecord* get_list();
 
 private:
-	void up_size();
 	int hashFunction(string key);
 	void resize_hash();
 };

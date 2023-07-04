@@ -10,10 +10,10 @@
 
 using namespace std;
 
-int arrsize = 5;
+int arrsize = 1024;
 string* keys = new string[arrsize];
 GISRecord* Name_Index = new GISRecord[arrsize];
-int pos = 0;
+int counter = 0;
 
 NameIndex::NameIndex()
 {
@@ -60,6 +60,7 @@ void NameIndex::insert_location(vector<string> data_container, int offset)
     {
         resize_hash();
     }
+    counter++;
 }
 
 GISRecord NameIndex::get_location(string loc) {
@@ -105,12 +106,32 @@ void NameIndex::resize_hash()
 
 void NameIndex::display()
 {
-    cout << "=============================" << endl;
+    int count = 0;
     for (int i = 0; i < arrsize; i++)
     {
         if (!keys[i].empty())
         {
+            count++;
             cout << "Index: " << i << " Key: " << keys[i] << endl;
         }
     }
+}
+
+vector<int> NameIndex::get_stats()
+{
+    vector<int> stats;
+    stats.push_back(counter);
+    stats.push_back(arrsize);
+
+    return stats;
+}
+
+string* NameIndex::get_keys()
+{
+    return keys;
+}
+
+GISRecord* NameIndex::get_list()
+{
+    return Name_Index;
 }

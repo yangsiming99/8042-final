@@ -19,26 +19,31 @@ SystemManager sysm;
 CommandProcessor cmd_proc;
 NameIndex ni;
 
-void parse_commands(vector<string> command)
+void parse_commands(vector<string> command, Logger lg)
 {
 	if (command[0] == "world")
 	{
 		sysm.set_world(command);
+		lg.log_world(sysm.get_bounds());
 		cout << "DO WORLD" << endl;
 	}
 	else if (command[0] == "import")
 	{
 		cmd_proc.cmd_import(command, sysm.get_bounds(), ni);
-		//ni.get_location("Asbury Church");
+		lg.log_import(ni);
 		cout << "DO IMPORT" << endl;
 	}
 	else if (command[0] == "debug")
 	{
+		if (command[1] == "hash") {
+			int x = 0;
+		}
 		cout << "DO DEBUG" << endl;
 	}
 	else if (command[0] == "quit")
 	{
 		cout << "DO QUIT" << endl;
+		exit(1);
 	}
 	else if (command[0] == "what_is_at")
 	{
@@ -88,7 +93,7 @@ int main(int argc, char* argv[])
 			{
 				log.log_command(output, counter);
 				vector<string> command = cmd_proc.parse_line(output);
-				parse_commands(command);
+				parse_commands(command, log);
 			}
 			else
 			{
@@ -97,7 +102,7 @@ int main(int argc, char* argv[])
 		}
 	}
 
-	ni.display();
+	//ni.display();
 
 	return 0;
 }
