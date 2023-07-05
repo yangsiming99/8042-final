@@ -120,5 +120,5 @@ class BufferPool
 
     --------------------------------------
     Have to implement:
-    search function to search for a specific record. 
+    search function to search for a specific record.
 */
