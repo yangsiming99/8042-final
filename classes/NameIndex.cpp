@@ -117,6 +117,30 @@ void NameIndex::display()
     }
 }
 
+string NameIndex::what_is(string loc, string abr)
+{
+    int index = hashFunction(loc);
+    string location;
+    GISRecord record;
+    if (keys[index] == loc && Name_Index[index].getState_alpha() == abr)
+    {
+        location = keys[index];
+        record = Name_Index[index];
+    }
+
+    if (location != loc) {
+        return format("No records match [{}] and [{}]", loc, abr);
+    }
+
+    string lati = record.getLat_DMS_prim();
+    string longi = record.getLong_DMS_prim();
+
+    lati = format("{}d {}m {}s {}", lati.substr(0, 2), lati.substr(2,2), lati.substr(4,2), lati.substr(6));
+    longi = format("{}d {}m {}s {}", longi.substr(0, 3), longi.substr(3, 2), longi.substr(5, 2), longi.substr(7));
+    
+    return format("{}:\t{} ({}, {})", to_string(index), record.getCountry_name(), lati, longi);
+}
+
 vector<int> NameIndex::get_stats()
 {
     vector<int> stats;

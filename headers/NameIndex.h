@@ -19,6 +19,7 @@ public:
 	vector<int> get_stats();
 	string* get_keys();
 	GISRecord* get_list();
+	string what_is(string loc, string abr);
 
 private:
 	int hashFunction(string key);

@@ -36,7 +36,7 @@ void parse_commands(vector<string> command, Logger lg)
 	else if (command[0] == "debug")
 	{
 		if (command[1] == "hash") {
-			int x = 0;
+			lg.log_import(ni);
 		}
 		cout << "DO DEBUG" << endl;
 	}
@@ -51,6 +51,8 @@ void parse_commands(vector<string> command, Logger lg)
 	}
 	else if (command[0] == "what_is")
 	{
+		string result = ni.what_is(command[1], command[2]);
+		lg.log_comment(result);
 		cout << "DO WHAT_IS" << endl;
 	}
 	else if (command[0] == "what_is_in")

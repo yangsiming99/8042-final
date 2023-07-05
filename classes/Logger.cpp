@@ -70,6 +70,7 @@ void Logger::log_world(vector<double> bounds)
 
 void Logger::log_import(NameIndex ni)
 {
+	// also debug hash
 	auto stats = ni.get_stats();
 	log_comment("");
 	log_comment("Current Table size is " + std::to_string(stats[1]));
@@ -78,7 +79,7 @@ void Logger::log_import(NameIndex ni)
 	string* keys = ni.get_keys();
 	GISRecord* recordList = ni.get_list();
 	//ni.display();
-	for (int i = 0; i < stats[1]; i++) // Use stats[0] instead of test[i] for loop condition
+	for (int i = 0; i < stats[1]; i++)
 	{
 		if (!keys[i].empty())
 		{
