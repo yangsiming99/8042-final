@@ -59,8 +59,8 @@
 #include "../headers/GISRecord.h"
 #include "../headers/Logger.h"
 
-#define UNSET 95969699
-#define UNSET2 40058585
+#define UNSET 999999
+#define UNSET2 999999
 
 using namespace std;
 
@@ -89,7 +89,11 @@ class CoordinateIndex
     const dms_coords unsetNode{UNSET,UNSET2};
     struct treeNode
     {
-        dms_coords range; //lat and long range covered by this node at current level
+        int westBound;
+        int eastBound;
+        int northBound;
+        int southBound;
+        dms_coords range; //lat range covered by this node at current level
         dms_coords coordinates; //the co-ordinate placed from database
         vector<int> offsets; //number of records in current coordinate
         vector<treeNode*> children;
@@ -97,7 +101,7 @@ class CoordinateIndex
     
     //we triple layered the nodes, so this way don't have to maintain a vector
     //of nodes in the node itself
-    vector<vector<treeNode>> kTree; //the tree. vector, of treeNode vectors 
+    vector<treeNode> kTree; //the tree. vector, of treeNode vectors 
     
     string dbPath;
 
@@ -107,10 +111,15 @@ class CoordinateIndex
     CoordinateIndex(int wLimit, int eLimit, int nLimit, int sLimit, int k);
 
     //functions
+
+    int string2DMS(string coords);
+    int determineRegion(dms_coords parentRange, GISRecord* current_record, 
+        int westBound, int eastBound, int northBound, int southBound);
+
     GISRecord processTxt(string rawText, int off); //return by value
    
     //inner helper function. spawns k child nodes and calls add upon the subnode 
-    void add_sub();
+    void add_to_node(treeNode* add2This, dms_coords parentRange, GISRecord* addThis);
 
    //spawn a vector of 4 nodes, place the offset and co-ords into their regions
     void splitNode(GISRecord* this_record);
