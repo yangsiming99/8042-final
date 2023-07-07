@@ -250,11 +250,11 @@ void BufferPool::insertRecord(GISRecord* rec)
         //copy it
         list<GISRecord>::iterator cache_it = this->recordCache.begin(); 
         advance(cache_it,(searchRes)); //advance iterator.
-        GISRecord new_rec = *cache_it;
+        GISRecord new_rec = *cache_it; //copy the record. dereferencing the iterator
 
         //remove it at current pos
         this->recordCache.erase(cache_it);
-        //push it to front
+        //push the found record to front
         this->recordCache.push_front(new_rec);
 
         //readjust if size > 15
@@ -285,24 +285,23 @@ string BufferPool::str()
 
 
 /*main function to test BufferPool functionality*/
-//int main (void)
-//{
-//    string dbPath = "../files/VA_Monterey.txt";
-//    BufferPool *pool = new BufferPool(dbPath);
-//
-//    pool->fillCache_db();
-//    int x = 0;
-//    // for(BufferPool::cacheNode n : pool->cache)
-//    // {
-//    //     cout << x <<". "<<n.record->getFeat_id() << endl;
-//    //     cout <<"next node:" << "\t" << n.next_node << endl;
-//    //     cout <<"prev node:" << "\t" << n.prev_node << endl;
-//    //     x++;
-//    // }
-//    pool->str();
-//
-//
-//}
+// int main (void)
+// {
+//     string dbPath = "../files/VA_Monterey.txt";
+//     BufferPool *pool = new BufferPool(dbPath);
+
+//     pool->fillCache_db();
+//     int x = 0;
+// //    // for(BufferPool::cacheNode n : pool->cache)
+// //    // {
+// //    //     cout << x <<". "<<n.record->getFeat_id() << endl;
+// //    //     cout <<"next node:" << "\t" << n.next_node << endl;
+// //    //     cout <<"prev node:" << "\t" << n.prev_node << endl;
+// //    //     x++;
+// //    // }
+//     pool->str();
+
+// }
 
 
 
