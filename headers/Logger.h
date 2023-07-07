@@ -2,6 +2,7 @@
 #define LOGGER_H
 
 #include "../headers/NameIndex.h"
+#include "./BufferPool.h"
 #include <string>
 #include <vector>
 #include <iostream>
@@ -14,11 +15,13 @@ class Logger
 public:
 	Logger(string fileName);
 	void log_command(string command, int& num);
-	void log_comment(string comment);
+	void log(string comment);
 	void create_log_file(string dbFN, string sFN);
 	void log_world(vector<double> bounds);
 	void log_import(NameIndex ni);
-	void log_debug();
+	void log_debug_hash(NameIndex ni);
+	void log_debug_pool(BufferPool* bp);
+	void log_debug_world(NameIndex ni, vector<double> bounds);
 
 private:
 	string get_time();

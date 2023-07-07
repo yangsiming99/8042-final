@@ -2,6 +2,7 @@
 #define NAMEINDEX_H
 
 #include "../headers/GisRecord.h"
+#include "BufferPool.h"
 #include <string>
 #include <vector>
 #include <ostream>
@@ -19,7 +20,7 @@ public:
 	vector<int> get_stats();
 	string* get_keys();
 	GISRecord* get_list();
-	string what_is(string loc, string abr);
+	string what_is(string loc, string abr, BufferPool* bp);
 
 private:
 	int hashFunction(string key);

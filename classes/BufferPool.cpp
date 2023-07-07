@@ -267,16 +267,19 @@ void BufferPool::insertRecord(GISRecord* rec)
 }
 
 //add more details is needed after
-void BufferPool::str()
+string BufferPool::str()
 {   
     //vector<GISRecord> helper_vec = {};
     int i = 0;
     cout << "Feat_Name\t|\tState Alphabet" << endl;
+    string output = "";
     for(GISRecord rec : this->recordCache)
     {
         cout << i+1 << ". " << rec.getFeat_name() << "\t: \t" << rec.getState_alpha() << endl;
+        output += to_string(rec.getOffset()) + "|" + rec.getFeat_id() + "|" + rec.getFeat_name()+"\n";
         i++;
     }
+    return output;
 }
 
 

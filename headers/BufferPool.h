@@ -89,7 +89,7 @@ class BufferPool
     void insertRecord(GISRecord* rec);
     
     //implement a str() that will be used in debug command
-    void str();
+    string str();
 
     /*getters and setters*/
     string getDbPath();

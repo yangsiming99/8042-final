@@ -14,6 +14,8 @@ int arrsize = 1024;
 string* keys = new string[arrsize];
 GISRecord* Name_Index = new GISRecord[arrsize];
 int counter = 0;
+int max_probe = 0;
+int character_count = 0;
 
 NameIndex::NameIndex()
 {
@@ -31,12 +33,17 @@ int NameIndex::hashFunction(string key)
 
 void NameIndex::insert_location(vector<string> data_container, int offset)
 {
+    string poop = data_container[1];
     int index = hashFunction(data_container[1]);
-    int att = 0;
+    int attempt = 0;
     while (keys[index] != "")
     {
-        att++;
-        index = (index + att * att) % arrsize;
+        attempt++;
+        if (attempt > max_probe)
+        {
+            max_probe = attempt;
+        }
+        index = (index + attempt * attempt) % arrsize;
     }
     keys[index] = data_container[1];
     GISRecord entry(offset, data_container[0], data_container[1], data_container[2], data_container[3], data_container[4],
@@ -45,22 +52,15 @@ void NameIndex::insert_location(vector<string> data_container, int offset)
         data_container[15], data_container[16], data_container[17], data_container[18], data_container[19]
     );
     Name_Index[index] = entry;
-    
-    int filled = 0;
-    for (int i = 0; i < arrsize; i++)
-    {
-        if (!keys[i].empty())
-        {
-            filled ++;
-        }
-    }
+    character_count += data_container[1].length();
+    counter++;
 
-    double fill_percent = static_cast<double>(filled) / arrsize;
+
+    double fill_percent = static_cast<double>(counter) / arrsize;
     if(fill_percent >= 0.75)
     {
         resize_hash();
     }
-    counter++;
 }
 
 GISRecord NameIndex::get_location(string loc) {
@@ -117,16 +117,27 @@ void NameIndex::display()
     }
 }
 
-string NameIndex::what_is(string loc, string abr)
+string NameIndex::what_is(string loc, string abr, BufferPool* bp)
 {
     int index = hashFunction(loc);
+    int attempt = 0;
     string location;
     GISRecord record;
-    if (keys[index] == loc && Name_Index[index].getState_alpha() == abr)
+    while (attempt <= max_probe)
     {
-        location = keys[index];
-        record = Name_Index[index];
+        if (keys[index] == loc && Name_Index[index].getState_alpha() == abr)
+        {
+            location = keys[index];
+            record = Name_Index[index];
+            bp->insertRecord(&record);
+            break;
+        }
+        else {
+            attempt++;
+            index = (index + attempt * attempt) % arrsize;
+        }
     }
+
 
     if (location != loc) {
         return format("No records match [{}] and [{}]", loc, abr);
@@ -146,6 +157,8 @@ vector<int> NameIndex::get_stats()
     vector<int> stats;
     stats.push_back(counter);
     stats.push_back(arrsize);
+    stats.push_back(max_probe);
+    stats.push_back(character_count / counter);
 
     return stats;
 }

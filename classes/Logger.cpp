@@ -1,6 +1,7 @@
 #include "../headers/Logger.h"
 #include "../headers/NameIndex.h"
 #include "../headers/GisRecord.h"
+#include "../headers/BufferPool.h"
 #include <string>
 #include <iostream>
 #include <fstream>
@@ -63,19 +64,28 @@ void Logger::log_command(string command, int& num)
 
 void Logger::log_world(vector<double> bounds)
 {
-	log_comment("\t\t" + to_string( bounds[2]));
-	log_comment(to_string(bounds[0]) + "\t\t" + to_string(bounds[1]));
-	log_comment("\t\t" + to_string(bounds[3]));
+	log("\t\t" + to_string( bounds[2]));
+	log(to_string(bounds[0]) + "\t\t" + to_string(bounds[1]));
+	log("\t\t" + to_string(bounds[3]));
 }
 
 void Logger::log_import(NameIndex ni)
 {
+	auto stats = ni.get_stats();
+	log(format("Imported Features By Name: {}", to_string(stats[0])));
+	log(format("Longest Probe Sequence: {}", to_string(stats[2])));
+	log(format("Imported Locations: {}", to_string(stats[0])));
+	log(format("Longest Probe Sequnce: {}", to_string(stats[3])));
+}
+
+void Logger::log_debug_hash(NameIndex ni)
+{
 	// also debug hash
 	auto stats = ni.get_stats();
-	log_comment("");
-	log_comment("Current Table size is " + std::to_string(stats[1]));
-	log_comment("Number of Elements in table is " + std::to_string(stats[0]));
-	log_comment("");
+	log("");
+	log("Current Table size is " + std::to_string(stats[1]));
+	log("Number of Elements in table is " + std::to_string(stats[0]));
+	log("");
 	string* keys = ni.get_keys();
 	GISRecord* recordList = ni.get_list();
 	//ni.display();
@@ -83,17 +93,49 @@ void Logger::log_import(NameIndex ni)
 	{
 		if (!keys[i].empty())
 		{
-			log_comment("\t" + to_string(i) + ": [" + keys[i] + ", " + recordList[i].getState_alpha() + "]");
+			log("\t" + to_string(i) + ": [" + keys[i] + ", " + recordList[i].getState_alpha() + "]");
 		}
 	}
 }
 
-void Logger::log_debug()
+void Logger::log_debug_pool(BufferPool* bp)
 {
-
+	string pool = bp->str();
+	log(pool);
 }
 
-void Logger::log_comment(string comment)
+void Logger::log_debug_world(NameIndex ni, vector<double> bounds)
+{
+	int map_w = 40;
+	int map_h = 30;
+
+	vector<vector<int>> map_coor(map_h, vector<int>(map_w, 0));
+	
+	//auto test = ni.get_keys();
+	//GISRecord* test2 = ni.get_list();
+	//auto test3 = ni.get_stats();
+
+	//for (int i = 0; i < test3[1]; i++) 
+	//{
+	//	if (!test[i].empty())
+	//	{
+	//		double longi = stod(test2[i].getLong_Dec_prim());
+	//		double lait = stod(test2[i].getLat_Dec_prim());
+
+	//		int p = 0;
+	//	}
+	//}
+
+
+	//log("+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+");
+	//for (int i = 0; i < 40; i++) {
+	//	log("|                                                                                                                                                                                              |");
+	//}
+	//log("+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+");
+	//int x = 0;
+}
+
+void Logger::log(string comment)
 {
 	logFile.open(c_fileName, ios_base::app);
 	logFile << comment + "\n";
