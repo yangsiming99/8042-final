@@ -52,6 +52,31 @@ GISRecord::GISRecord(int off, string id_feat, string name_feat, string class_fea
 // }
 
 
+GISRecord processTxt_gis(string raw, int off)
+{
+    vector<string> parameters = {};
+    string current = ""; //current parameter value
+    for (char c : raw) //for each character in rawText
+    {
+        if( c != '|') // if it is not a pipe character
+        {
+            current += c; //add c to current parameter
+        }
+        else if (c == '|') //if we encounter a pipe
+        {
+            parameters.push_back(current); //append whatever we have read to parameters
+            current = ""; //reset the string
+        }
+    }
+    GISRecord new_record = GISRecord{off,parameters[0],parameters[1],parameters[2],parameters[3],
+    parameters[4],parameters[5],parameters[6],parameters[7],
+    parameters[8],parameters[9],parameters[10],parameters[11],
+    parameters[12],parameters[13],parameters[14],parameters[15],
+    parameters[16],parameters[17],parameters[18],parameters[19]};
+
+    return new_record;
+
+}
 
 /*getter and setter declarations*/
 int GISRecord::getOffset()

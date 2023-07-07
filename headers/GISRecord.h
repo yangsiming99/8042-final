@@ -56,8 +56,7 @@ public:
 	);
 	
 	//void create_db_file();
-
-
+	GISRecord processTxt_gis(string raw, int off);
 
 	//potential helper functions
 	//dms to decimal degree converters

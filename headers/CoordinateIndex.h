@@ -59,6 +59,9 @@
 #include "../headers/GISRecord.h"
 #include "../headers/Logger.h"
 
+#define UNSET 95969699
+#define UNSET2 40058585
+
 using namespace std;
 
 class CoordinateIndex
@@ -67,6 +70,8 @@ class CoordinateIndex
     
     vector<GISRecord> records; //raw set of records. Ideally we only fill this up once during "Indexing"
     
+    int buckets; //number of divisions a spatial regions goes through
+
     // spatial bounds. Fluid depending on commands/inputs
     int westLimit;
     int eastLimit;
@@ -80,29 +85,46 @@ class CoordinateIndex
     {
         int latCoords;
         int longCoords;
-    }
+    };
+    const dms_coords unsetNode{UNSET,UNSET2};
     struct treeNode
     {
-        dms_coords neg_limit; //the W and S limits
-        dms_coords pos_limit; //the N and E limits
-        dms_cords coordinates; //the co-ordinate placed from database
-        vector<int> offsets;
-    }
+        dms_coords range; //lat and long range covered by this node at current level
+        dms_coords coordinates; //the co-ordinate placed from database
+        vector<int> offsets; //number of records in current coordinate
+        vector<treeNode*> children;
+    };
     
-    vector<vector<treeNode>> kTree; //the tree 
+    //we triple layered the nodes, so this way don't have to maintain a vector
+    //of nodes in the node itself
+    vector<vector<treeNode>> kTree; //the tree. vector, of treeNode vectors 
     
+    string dbPath;
+
+    //initialize empty stuff
+    CoordinateIndex();
+    //db not set yet when constructed
+    CoordinateIndex(int wLimit, int eLimit, int nLimit, int sLimit, int k);
 
     //functions
     GISRecord processTxt(string rawText, int off); //return by value
+   
+    //inner helper function. spawns k child nodes and calls add upon the subnode 
+    void add_sub();
 
-    //add to vector of records, add() to kTree and process any change in the tree structure
+   //spawn a vector of 4 nodes, place the offset and co-ords into their regions
+    void splitNode(GISRecord* this_record);
+
+    //add to raw vector of records, && add() to kTree and process any change in the tree structure
     void add(GISRecord* record);
 
 
     //read whole file
     //turn to records
     //uses add() function, so the tree is also updated
-    index_db();
+    void index_db();
+
+    void remove(GISRecord *record);
 
     //logic behind spatial regions
     //westLimit to eastLimit is our longitude range
@@ -111,6 +133,10 @@ class CoordinateIndex
         //let's take that, divide by 2 and now we have the amount in each leaf (region for now) 
     void adjust(int westNum, int eastNum, int northNum, int southNum);
 
+    void changeK(int newK); //changes the divisions of spatial regions
+
+    string getDbPath();
+    void setDbPath(string filePath);
 
     private:
 
