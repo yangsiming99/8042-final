@@ -5,7 +5,6 @@
 #include <string>
 #include <iostream>
 #include <fstream>
-#include <format>
 #include <ctime>
 #include <iomanip>
 #include <sstream>
@@ -25,12 +24,12 @@ void Logger::create_log_file(string dbFN, string sFN)
 {
 	logFile.open(c_fileName, ios_base::trunc);
 	logFile << "Course Project for COMP 8042\n";
-	logFile << format("Student Name: {}, Student Id: {}\n", "Siming & Abeer", "A01019984 & ENTER # Here");
+	logFile << "Student Name: " << "Siming & Abeer" << ", Student Id: " << "A01019984 & ENTER # Here" << "\n";
 	logFile << "Begin of GIS Program log:\n";
-	logFile << format("dbFile:\t{}\n", dbFN);
-	logFile << format("script:\t{}\n", sFN);
-	logFile << format("log:\t{}\n", c_fileName);
-	logFile << format("Start Time: {}\n", get_time());
+	logFile << "dbFile:\t" << dbFN << "\n";
+	logFile << "script:\t" << sFN << "\n";
+	logFile << "log:\t" << c_fileName << "\n";
+	logFile << "Start Time: " << get_time() << "\n";
 	get_time();
 	logFile.close();
 }
@@ -55,7 +54,7 @@ void Logger::log_command(string command, int& num)
 	}
 	else
 	{
-		logFile << format("COMMAND {}:\t{}\n", num, command);
+		logFile << "COMMAND " << num << ":\t" << command << "\n";
 		num++;
 	}
 	
@@ -72,10 +71,10 @@ void Logger::log_world(vector<double> bounds)
 void Logger::log_import(NameIndex ni)
 {
 	auto stats = ni.get_stats();
-	log(format("Imported Features By Name: {}", to_string(stats[0])));
-	log(format("Longest Probe Sequence: {}", to_string(stats[2])));
-	log(format("Imported Locations: {}", to_string(stats[0])));
-	log(format("Longest Probe Sequnce: {}", to_string(stats[3])));
+	log("Imported Features By Name: " + to_string(stats[0]));
+	log("Longest Probe Sequence: " + to_string(stats[2]));
+	log("Imported Locations: " + to_string(stats[0]));
+	log("Longest Probe Sequence: " + to_string(stats[3]));
 }
 
 void Logger::log_debug_hash(NameIndex ni)

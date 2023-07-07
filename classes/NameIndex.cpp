@@ -6,7 +6,6 @@
 #include <sstream>
 #include <vector>
 #include <ostream>
-#include <format>
 
 using namespace std;
 
@@ -140,16 +139,25 @@ string NameIndex::what_is(string loc, string abr, BufferPool* bp)
 
 
     if (location != loc) {
-        return format("No records match [{}] and [{}]", loc, abr);
+        return "No records match [" + loc + "] and [" + abr + "]";
     }
 
     string lati = record.getLat_DMS_prim();
     string longi = record.getLong_DMS_prim();
 
-    lati = format("{}d {}m {}s {}", lati.substr(0, 2), lati.substr(2,2), lati.substr(4,2), lati.substr(6));
-    longi = format("{}d {}m {}s {}", longi.substr(0, 3), longi.substr(3, 2), longi.substr(5, 2), longi.substr(7));
-    
-    return format("{}:\t{} ({}, {})", to_string(index), record.getCountry_name(), lati, longi);
+    std::stringstream latiStream;
+    latiStream << lati.substr(0, 2) << "d " << lati.substr(2, 2) << "m " << lati.substr(4, 2) << "s " << lati.substr(6);
+    std::string latiFormatted = latiStream.str();
+
+    std::stringstream longiStream;
+    longiStream << longi.substr(0, 3) << "d " << longi.substr(3, 2) << "m " << longi.substr(5, 2) << "s " << longi.substr(7);
+    std::string longiFormatted = longiStream.str();
+
+    std::stringstream resultStream;
+    resultStream << index << ":\t" << record.getCountry_name() << " (" << latiFormatted << ", " << longiFormatted << ")";
+    std::string result = resultStream.str();
+
+    return result;
 }
 
 vector<int> NameIndex::get_stats()
