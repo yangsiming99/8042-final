@@ -160,11 +160,13 @@ class CoordinateIndex
     //northLimit and southLimit is our latitude range
     //whatever is K, we divide that by 2. Answer of that is number of regions north and south
         //let's take that, divide by 2 and now we have the amount in each leaf (region for now) 
-    void adjust(int westNum, int eastNum, int northNum, int southNum); //not implemented
+    //not implemented ***********
+    void adjust(int westNum, int eastNum, int northNum, int southNum);
 
     void changeK(int newK); //changes the divisions of spatial regions
 
-    //void str() for debug
+    void print_subTree(vector<treeNode> subnode);
+    void to_str(); //for debug
 
     string getDbPath();
     void setDbPath(string filePath);

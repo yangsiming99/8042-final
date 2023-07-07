@@ -789,3 +789,61 @@ void CoordinateIndex::remove(GISRecord* record)
         cout << "erased co-ordinate and offset info." << endl;
     }
 }
+
+void CoordinateIndex::print_subTree(vector<treeNode> subnode)
+{
+    for(int i = 0; i < subnode.length(); ++i)
+    {
+        dms_coords nodeCoords = subnode[i]->coordinates;
+        int childrenAmount = subnode[i]->children.length();
+        if((nodeCoords == this->unsetNode) && childrenAmount == 0) //if coords are unset and no children
+        {
+            cout << "subTree co-ordinates UNSET" << endl; //nothing is set here, so not found
+        } 
+        else if ((nodeCoords == this->unsetNode) && childrenAmount > 0) //coords unset WITH children
+        {
+            print_subTree(subnode[i]->children);
+        }
+        else if ((nodeCoords != this->unsetNode) && childrenAmount == 0) //coords set;  NO children
+        {
+            cout << "sub-tree index: " << i <<", contains: " <<endl;
+            cout <<"offsets: " << endl;
+            for(int x : subnode[i]->offsets)
+            {
+                cout << x << ", ";
+            } 
+            cout << endl;
+        }
+    }
+}
+
+void CoordinateIndex::to_str()
+{
+    for(int j = 0; j < this->kTree.length(); ++j)
+    {
+        treeNode* t = kTree[j];
+        dms_coords nodeCoords = t->coordinates;
+        int childrenAmount = t->children.length();
+
+        if((nodeCoords == this->unsetNode) && childrenAmount == 0) //if coords are unset and no children
+        {
+            cout << "parent_node : " << j << ": UNSET" << endl;//nothing is set here, so not found
+        } //changes to a SET state with no children
+        else if ((nodeCoords == this->unsetNode) && childrenAmount > 0) //coords unset WITH children
+        {
+            //print subTree
+            cout << "parent_node : " << j << endl;
+            print_subTree(kTree[j]->children);
+        }
+        else if ((nodeCoords != this->unsetNode) && childrenAmount == 0) //set cords and no children
+        {
+            cout << "parent_node : " << j << endl;
+            cout << "child of " << j << ", contains: "<< endl;
+            for (int o ; t->offsets)
+            {
+                cout << o <<", ";
+            }
+            cout << endl;
+        }
+    }
+}
