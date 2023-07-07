@@ -87,6 +87,31 @@ void CoordinateIndex::changeK(int k)
     this->buckets = k;
 }
 
+GISRecord CoordinateIndex::processTxt(string rawText, int off) //return by value
+{
+    vector<string> parameters = {};
+    string current = ""; //current parameter value
+    for (char c : rawText) //for each character in rawText
+    {
+        if( c != '|') // if it is not a pipe character
+        {
+            current += c; //add c to current parameter
+        }
+        else if (c == '|') //if we encounter a pipe
+        {
+            parameters.push_back(current); //append whatever we have read to parameters
+            current = ""; //reset the string
+        }
+    }
+    GISRecord new_record = GISRecord{off,parameters[0],parameters[1],parameters[2],parameters[3],
+    parameters[4],parameters[5],parameters[6],parameters[7],
+    parameters[8],parameters[9],parameters[10],parameters[11],
+    parameters[12],parameters[13],parameters[14],parameters[15],
+    parameters[16],parameters[17],parameters[18],parameters[19]};
+
+    return new_record;
+}
+
 int string2DMS(string coords)
 {
     char orientation = coords[coords.length()-1];
@@ -355,12 +380,12 @@ int p_westBound, int p_eastBound, int p_northBound, int p_southBound)
     }   
 }
 
-void CoordinateIndex::splitNode(GISRecord* this_record)
-{
-    //take the range values
-    //divide them with k. gives us entire lat and long range of each sub regions 
+// void CoordinateIndex::splitNode(GISRecord* this_record)
+// {
+//     //take the range values
+//     //divide them with k. gives us entire lat and long range of each sub regions 
 
-}
+// }
 
 void CoordinateIndex::add(GISRecord* record)
 {
@@ -404,7 +429,37 @@ void CoordinateIndex::add(GISRecord* record)
     this->eastLimit, this->northLimit, this->southLimit);
     // do this after : 
     this.records.push_back(record);
+}
 
+void CoordinateIndex::index_db()
+{
+    //open db file
+    fstream dbFile;
+    dbFile.open(this->dbPath,ios::in); //input mode
 
+    vector<GISRecord> record_cache = {}; //helper vector which we convert to double link list later
+    
+    //go through each line until Line Feed (ASCII 10) is encountered
+    if(dbFile.is_open())
+    {
+        dbFile.ignore(265); //the titles in the db columns altogether make 264 char. "\n" after makes 265
+                            //in Windows, Carriage Return + Line Feed makes End-Of-Line, so might act weird
+        string line;
+        int length = 265;
+        int mapIndex = 0; 
+        //GISRecord new_record = GISRecord();
+        while(getline(dbFile,line))
+        {
+            //process the string read to a GISRecord.
+            GISRecord new_record = processTxt(line,length); //first record, has offset of 265
+            length += line.length(); //offset keeps being added. we count \n in offset
+            add(new_record);
+        } //EOF reached
+    }
+    else
+    {
+        cout << "error opening DB File (CoordinateIndex::index_db() method)" << endl;
+    }
+    dbFile.close();
 }
 

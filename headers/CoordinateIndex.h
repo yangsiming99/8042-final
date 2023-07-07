@@ -56,7 +56,7 @@
 #include <fstream>
 #include <iostream>
 #include <iterator>
-#include <algorithM.
+#include <algorithm>
 
 #include "../headers/GISRecord.h"
 #include "../headers/Logger.h"
@@ -128,7 +128,7 @@ class CoordinateIndex
         int westBound, int eastBound, int northBound, int southBound);
 
    //spawn a vector of 4 nodes, place the offset and co-ords into their regions
-    void splitNode(GISRecord* this_record);
+    // void splitNode(GISRecord* this_record);
 
     //add to raw vector of records, && add() to kTree and process any change in the tree structure
     void add(GISRecord* record);
@@ -149,6 +149,8 @@ class CoordinateIndex
     void adjust(int westNum, int eastNum, int northNum, int southNum);
 
     void changeK(int newK); //changes the divisions of spatial regions
+
+    //void str() for debug
 
     string getDbPath();
     void setDbPath(string filePath);
