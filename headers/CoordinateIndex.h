@@ -140,25 +140,27 @@ class CoordinateIndex
     void index_db();
 
     vector<int> traverseSubNode(treeNode* subnode, GISRecord* record);
-
     vector<int> lookFor(GISRecord* record);
 
     vector<int> traverseSubNode_b(treeNode* subnode, int lat_Coords, int long_Coords);
     vector<int> lookForCoords(int lat_Coords, int long_Coords);
+
+    vector<int> traverseSubNode_range(treeNode* subnode, dms_coords center, int lat_Coords, int long_Coords);
+    vector<int> lookForCoords_range(dms_coords center, int lat_Coords, int long_Coords);
 
     void remove(GISRecord *record);
 
     //return a vector of offsets
     vector<int> what_is_at(dms_coords coords);
 
-    vector<int> what_is_in(dms_coords center_coords, int half_height, int half_width)
+    vector<int> what_is_in(dms_coords center_coords, int half_height, int half_width, string optional)
 
     //logic behind spatial regions
     //westLimit to eastLimit is our longitude range
     //northLimit and southLimit is our latitude range
     //whatever is K, we divide that by 2. Answer of that is number of regions north and south
         //let's take that, divide by 2 and now we have the amount in each leaf (region for now) 
-    void adjust(int westNum, int eastNum, int northNum, int southNum);
+    void adjust(int westNum, int eastNum, int northNum, int southNum); //not implemented
 
     void changeK(int newK); //changes the divisions of spatial regions
 

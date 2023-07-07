@@ -515,6 +515,7 @@ vector<int> CoordinateIndex::traverseSubNode(treeNode* subnode, GISRecord* recor
     return answer;
 }
 
+//for finding exact coords
 traverseSubNode_b(treeNode* subnode, int lat_Coords, int long_Coords)
 {
     vector<int> answer = {};
@@ -542,7 +543,7 @@ traverseSubNode_b(treeNode* subnode, int lat_Coords, int long_Coords)
             }
         }
         answer.push_back(majorIndex);
-        vector<int> subNodeTravel = traverseSubNode_b(kTree[majorIndex], int lat_Coords, int long_Coords);
+        vector<int> subNodeTravel = traverseSubNode_range(kTree[majorIndex], int lat_Coords, int long_Coords);
         answer.insert(answer.end(), subNodeTravel.begin(),subNodeTravel.end());
     }
     else if ((nodeCoords != this->unsetNode) && childrenAmount == 0) //set cords and no children
@@ -559,6 +560,59 @@ traverseSubNode_b(treeNode* subnode, int lat_Coords, int long_Coords)
     }
 
     return answer;
+}
+
+//for finding range of coords
+traverseSubNode_range(treeNode* subnode, dms_coords center, int lat_Coords, int long_Coords)
+{
+    vector<int> answer = {};
+    int westBound_region = center.longCoords - long_Coords;
+    int eastBound_region = center.longCoords + long_Coords;
+    int northBound_region = center.latCoords + lat_Coords;
+    int southBound_region = center.latCoords - lat_Coords;
+    
+    dms_coords nodeCoords = subnode->coordinates;
+    int childrenAmount = subnode->children.length();
+
+    if((nodeCoords == this->unsetNode) && childrenAmount == 0) //if coords are unset and no children
+    {
+        answer.push_back(-1); //nothing is set here, so not found
+    } //changes to a SET state with no children
+    else if ((nodeCoords == this->unsetNode) && childrenAmount > 0) //coords unset WITH children
+    {
+        int majorIndex = 0;
+        for(int i = 0; i < subnode->children.length(); ++i)
+        {
+            int westB = subnode->children[i].westBound;
+            int eastB = subnode->children[i].eastBound;
+            int northB = subnode->children[i].northBound;
+            int southB = subnode->children[i].southBound;
+
+            if((westBound_region >= westB && eastBound_region <= eastB) && 
+                (southBound_region >= southB && northBound_region <= northB))
+            {
+                majorIndex = i;
+            }
+        }
+        answer.push_back(majorIndex);
+        vector<int> subNodeTravel = traverseSubNode_range(kTree[majorIndex], center, lat_Coords, long_Coords);
+        answer.insert(answer.end(), subNodeTravel.begin(),subNodeTravel.end());
+    }
+    else if ((nodeCoords != this->unsetNode) && childrenAmount == 0) //set cords and no children
+    {
+        if((nodeCoords.longCoords >= westBound_region && nodeCoords.longCoords <= eastBound_region) && 
+        (nodeCoords.latCoords >= southBound_region && nodeCoords.latCoords <= northBound_region))
+        {
+            answer.push_back(this->buckets); //pushing buckets means we found the answer at this level
+            //means at the level in element that is before this number, in the answer vector, 
+        }
+        else
+        {
+            answer.push_back(-1); //not found
+        }
+    }
+
+
 }
 
 vector<int> CoordinateIndex::lookForCoords(int lat_Coords, int long_Coords)
@@ -617,6 +671,38 @@ vector<int> CoordinateIndex::lookFor(GISRecord* record)
     return answer;
 }
 
+
+vector<int> CoordinateIndex::lookForCoords_range(dms_coords center, int lat_Coords, int long_Coords)
+{
+    vector<int> answer = {};
+    int westBound_region = center.longCoords - long_Coords;
+    int eastBound_region = center.longCoords + long_Coords;
+    int northBound_region = center.latCoords + lat_Coords;
+    int southBound_region = center.latCoords - lat_Coords;
+    
+    int majorIndex = -1;
+    for(int i = 0; i < this->kTree.length(); ++i)
+    {
+        int westB = kTree[i].westBound;
+        int eastB = kTree[i].eastBound;
+        int northB = kTree[i].northBound;
+        int southB = kTree[i].southBound;
+
+        if((westBound_region >= westB && eastBound_region <= eastB) && (southBound_region >= southB && northBound_region <= northB))
+        {
+            majorIndex = i;
+        }
+    }
+    answer.push_back(majorIndex);
+    if(majorIndex != -1)
+    {
+        vector<int> subNodeTravel = traverseSubNode_range(kTree[majorIndex], center, lat_Coords,long_Coords);
+        answer.insert(answer.end(),subNodeTravel.begin(),subNodeTravel.end());
+    }
+    
+    return answer;
+}
+
 vector<int> CoordinateIndex::what_is_at(dms_coords coords)
 {
     vector<int> offs = {};
@@ -648,9 +734,30 @@ vector<int> CoordinateIndex::what_is_at(dms_coords coords)
     return offs;
 }
 
-vector<int> CoordinateIndex::what_is_in(dms_coords center_coords, int half_height, int half_width)
+vector<int> CoordinateIndex::what_is_in(dms_coords center_coords, int half_height, int half_width, string optional)
 {
-
+    vector<int> paths = lookForCoords_range(center_coords, half_height, half_width);
+    treeNode* n;
+    for(int i = 0; i < paths.length(); ++i)
+    {
+        if(i == 0)
+        {
+            if((paths[0] != -1) || (paths[0] != this->buckets))
+            {
+                n = this->kTree[paths[0]];
+            }
+        }
+        else
+        {
+            if((paths[i] != -1) || (paths[i] != this->buckets))
+            {
+                treeNode* newNode = n->children[i];
+                n = newNode;
+            }
+        }
+    }
+    vector<int> rec_offsets = n->offsets;
+    return rec_offsets;
 }
 
 void CoordinateIndex::remove(GISRecord* record)
