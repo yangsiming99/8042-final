@@ -39,7 +39,6 @@
     debug <quad>
     quit
     what_is_at <geographic coordinate>
-    what_is <feature_name> <geographic coordinate>
     what_is_in <geographic coordinate> <half-height> <half-width>
         about: this geog. coord is the center. from center go half height N and S
                                                               half width E and W
@@ -57,6 +56,7 @@
 #include <iostream>
 #include <iterator>
 #include <algorithm>
+#include <unordered_map>
 
 #include "../headers/GISRecord.h"
 #include "../headers/Logger.h"
@@ -139,7 +139,19 @@ class CoordinateIndex
     //uses add() function, so the tree is also updated
     void index_db();
 
+    vector<int> traverseSubNode(treeNode* subnode, GISRecord* record);
+
+    vector<int> lookFor(GISRecord* record);
+
+    vector<int> traverseSubNode_b(treeNode* subnode, int lat_Coords, int long_Coords);
+    vector<int> lookForCoords(int lat_Coords, int long_Coords);
+
     void remove(GISRecord *record);
+
+    //return a vector of offsets
+    vector<int> what_is_at(dms_coords coords);
+
+    vector<int> what_is_in(dms_coords center_coords, int half_height, int half_width)
 
     //logic behind spatial regions
     //westLimit to eastLimit is our longitude range
