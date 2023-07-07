@@ -39,7 +39,6 @@
     debug <quad>
     quit
     what_is_at <geographic coordinate>
-    what_is <feature_name> <geographic coordinate>
     what_is_in <geographic coordinate> <half-height> <half-width>
         about: this geog. coord is the center. from center go half height N and S
                                                               half width E and W
@@ -55,12 +54,15 @@
 #include <vector>
 #include <fstream>
 #include <iostream>
+#include <iterator>
+#include <algorithm>
+#include <unordered_map>
 
 #include "../headers/GISRecord.h"
 #include "../headers/Logger.h"
 
-#define UNSET 95969699
-#define UNSET2 40058585
+#define UNSET 999999
+#define UNSET2 999999
 
 using namespace std;
 
@@ -89,7 +91,11 @@ class CoordinateIndex
     const dms_coords unsetNode{UNSET,UNSET2};
     struct treeNode
     {
-        dms_coords range; //lat and long range covered by this node at current level
+        int westBound;
+        int eastBound;
+        int northBound;
+        int southBound;
+        dms_coords range; //lat range covered by this node at current level
         dms_coords coordinates; //the co-ordinate placed from database
         vector<int> offsets; //number of records in current coordinate
         vector<treeNode*> children;
@@ -97,7 +103,7 @@ class CoordinateIndex
     
     //we triple layered the nodes, so this way don't have to maintain a vector
     //of nodes in the node itself
-    vector<vector<treeNode>> kTree; //the tree. vector, of treeNode vectors 
+    vector<treeNode> kTree; //the tree. vector, of treeNode vectors 
     
     string dbPath;
 
@@ -107,13 +113,22 @@ class CoordinateIndex
     CoordinateIndex(int wLimit, int eLimit, int nLimit, int sLimit, int k);
 
     //functions
+
+    int string2DMS(string coords);
+    int determineRegion(dms_coords parentRange, GISRecord* current_record, 
+        int westBound, int eastBound, int northBound, int southBound);
+
+    int determineRegion_split(dms_coords parentRange, int old_recordLat, int old_recordLong, 
+        int westBound, int eastBound, int northBound, int southBound);
+
     GISRecord processTxt(string rawText, int off); //return by value
    
     //inner helper function. spawns k child nodes and calls add upon the subnode 
-    void add_sub();
+    void add_to_node(treeNode* add2This, dms_coords parentRange, GISRecord* addThis, 
+        int westBound, int eastBound, int northBound, int southBound);
 
    //spawn a vector of 4 nodes, place the offset and co-ords into their regions
-    void splitNode(GISRecord* this_record);
+    // void splitNode(GISRecord* this_record);
 
     //add to raw vector of records, && add() to kTree and process any change in the tree structure
     void add(GISRecord* record);
@@ -124,16 +139,34 @@ class CoordinateIndex
     //uses add() function, so the tree is also updated
     void index_db();
 
+    vector<int> traverseSubNode(treeNode* subnode, GISRecord* record);
+    vector<int> lookFor(GISRecord* record);
+
+    vector<int> traverseSubNode_b(treeNode* subnode, int lat_Coords, int long_Coords);
+    vector<int> lookForCoords(int lat_Coords, int long_Coords);
+
+    vector<int> traverseSubNode_range(treeNode* subnode, dms_coords center, int lat_Coords, int long_Coords);
+    vector<int> lookForCoords_range(dms_coords center, int lat_Coords, int long_Coords);
+
     void remove(GISRecord *record);
+
+    //return a vector of offsets
+    vector<int> what_is_at(dms_coords coords);
+
+    vector<int> what_is_in(dms_coords center_coords, int half_height, int half_width, string optional)
 
     //logic behind spatial regions
     //westLimit to eastLimit is our longitude range
     //northLimit and southLimit is our latitude range
     //whatever is K, we divide that by 2. Answer of that is number of regions north and south
         //let's take that, divide by 2 and now we have the amount in each leaf (region for now) 
+    //not implemented ***********
     void adjust(int westNum, int eastNum, int northNum, int southNum);
 
     void changeK(int newK); //changes the divisions of spatial regions
+
+    void print_subTree(vector<treeNode> subnode);
+    void to_str(); //for debug
 
     string getDbPath();
     void setDbPath(string filePath);
