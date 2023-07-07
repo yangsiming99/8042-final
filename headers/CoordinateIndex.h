@@ -55,6 +55,8 @@
 #include <vector>
 #include <fstream>
 #include <iostream>
+#include <iterator>
+#include <algorithM.
 
 #include "../headers/GISRecord.h"
 #include "../headers/Logger.h"
@@ -116,10 +118,14 @@ class CoordinateIndex
     int determineRegion(dms_coords parentRange, GISRecord* current_record, 
         int westBound, int eastBound, int northBound, int southBound);
 
+    int determineRegion_split(dms_coords parentRange, int old_recordLat, int old_recordLong, 
+        int westBound, int eastBound, int northBound, int southBound);
+
     GISRecord processTxt(string rawText, int off); //return by value
    
     //inner helper function. spawns k child nodes and calls add upon the subnode 
-    void add_to_node(treeNode* add2This, dms_coords parentRange, GISRecord* addThis);
+    void add_to_node(treeNode* add2This, dms_coords parentRange, GISRecord* addThis, 
+        int westBound, int eastBound, int northBound, int southBound);
 
    //spawn a vector of 4 nodes, place the offset and co-ords into their regions
     void splitNode(GISRecord* this_record);

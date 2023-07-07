@@ -2,6 +2,8 @@
 #include <vector>
 #include <fstream>
 #include <iostream>
+#include <iterator>
+#include <algorithm>
 
 #include "../headers/CoordinateIndex.h"
 #include "../headers/GISRecord.h"
@@ -108,18 +110,48 @@ int CoordinateIndex::determineRegion(dms_coords parentRange, GISRecord* current_
     //int quotient = this->buckets/2; //default is (4/2) = 2
     // int latDivide = parentRange.latCoords / quotient;
     // int longDivide = parentRange.longCoords / quotient;
-   
-    int latStep = parentRange.latCoords / this->buckets;
+    int return_node = 0;
+
+    int latStep = parentRange.latCoords / 2;
     int longStep = parentRange.longCoords / this->buckets;
 
     int latOfInterest = string2DMS(current_record->getLat_DMS_prim()); // -ve or positive
     int longOfInterest = string2DMS(current_record->getLong_DMS_prim()); // -ve or positive
     
+    int latNum = southBound;
     int latIncrements = 0;
+    int longNum = westBound;
     int longIncrements = 0;
 
-    while()
+    while(latNum < latOfInterest && latNum < northBound)
+    {
+        latNum += latStep;
+        latIncrements++;
+    }
+
+    while(longNum < longOfInterest && longNum < eastBound)
+    {
+        longNum += longStep;
+        longIncrements++;
+    }
     
+    if(latIncrements == 2) //north hemisphere of our world. 
+    {
+        return_node = longIncrements-1; //maintaining 0 being first index
+    }
+    else if (latIncrements < 2) //southern hemisphere of our world
+    {
+        int upper_long_segments = (this->buckets/2);
+        if(this->buckets %2 == 0) //if even buckets
+        {
+            return_node = upper_long_segments + (longIncrements) - 1;
+        }
+        else //odd buckets
+        {
+            return_node = upper_long_segments + (longIncrements+1) -1 ;
+        }
+    }
+    return return_node;
     // //indicators
     // int n = 0; //north
     // int s = 0; //south
@@ -166,7 +198,52 @@ int CoordinateIndex::determineRegion(dms_coords parentRange, GISRecord* current_
     // }
 }
 
-void CoordinateIndex::add_to_node(treeNode* add2This, dms_coords parentRange, GISRecord* addThis)
+int CoordinateIndex::determineRegion_split(dms_coords parentRange, int old_recordLat, int old_recordLong, 
+        int westBound, int eastBound, int northBound, int southBound)
+{
+    int return_node = 0;
+
+    int latStep = parentRange.latCoords / 2;
+    int longStep = parentRange.longCoords / this->buckets;
+
+    int latNum = southBound;
+    int latIncrements = 0;
+    int longNum = westBound;
+    int longIncrements = 0;
+
+    while(latNum < old_recordLat && latNum < northBound)
+    {
+        latNum += latStep;
+        latIncrements++;
+    }
+
+    while(longNum < old_recordLong && longNum < eastBound)
+    {
+        longNum += longStep;
+        longIncrements++;
+    }
+    
+    if(latIncrements == 2) //north hemisphere of our world. 
+    {
+        return_node = longIncrements-1; //maintaining 0 being first index
+    }
+    else if (latIncrements < 2) //southern hemisphere of our world
+    {
+        int upper_long_segments = (this->buckets/2);
+        if(this->buckets %2 == 0) //if even buckets
+        {
+            return_node = upper_long_segments + (longIncrements) - 1;
+        }
+        else //odd buckets
+        {
+            return_node = upper_long_segments + (longIncrements+1) -1 ;
+        }
+    }
+    return return_node;
+}
+
+void CoordinateIndex::add_to_node(treeNode* add2This, dms_coords parentRange, GISRecord* addThis,
+int p_westBound, int p_eastBound, int p_northBound, int p_southBound)
 {
     int addThisLat = string2DMS(addThis->getLat_DMS_prim);
     int addThisLong = string2DMS(addThis->getLong_DMS_prim);
@@ -175,43 +252,107 @@ void CoordinateIndex::add_to_node(treeNode* add2This, dms_coords parentRange, GI
     //determine add2This node status
     dms_coords nodeCoords = add2This->coordinates;
     int childrenAmount = add2This->children.length();
-    if((nodeCoords == this->unsetNode) && childrenAmount == 0)
+    if((nodeCoords == this->unsetNode) && childrenAmount == 0) //if coords are unset and no children
     {
         add2This->range = parentRange;
+        add2This->westBound = p_westBound;
+        add2This->eastBound = p_eastBound;
+        add2This->northBound = p_northBound;
+        add2This->southBound = p_southBound;
         add2This->coordinates = this_rec_coords;
         add2This->offsets.push_back(addThis->getOffset());
         add2This->children = {}; //since was unset prior, we have no children at the moment
     } //changes to a SET state with no children
-    else if ((nodeCoords == this->unsetNode) && childrenAmount > 0)
+    else if ((nodeCoords == this->unsetNode) && childrenAmount > 0) //coords unset WITH children
     {
-        int subNode = determineRegion(add2This->range, addThis, );
-        add_to_node(add2This->children[subNode], add2This->range, addThis);
+        //note that we use this sub-node's range and bounds
+        int subNode = determineRegion(add2This->range, addThis, 
+            add2This->westBound, add2This->eastBound, add2This->northBound, add2This->southBound);
+        treeNode sub = add2This->children[subNode];
+        add_to_node(add2This->children[subNode], add2This->range, addThis, 
+            sub->westBound, sub->eastBound, sub->northBound, sub->southBound);
     }
-    else if ((nodeCoords != this->unsetNode) && childrenAmount == 0)
+    else if ((nodeCoords != this->unsetNode) && childrenAmount == 0) //set cords and no children
     {
         dms_coords oldCoords = add2This->coordinates;
-        add2This->coordinates{UNSET,UNSET2};
+        add2This->coordinates = this.unsetNode;
 
         vector<int> oldOffsets = add2This->offsets;
         add2This->offsets.clear();
 
         int oldLatRange = add2This->range.latCoords;
         int oldLongRange = add2This->range.longCoords;
-        int childrenLatRange = oldLatRange / this->buckets;
-        int childrenLongRange = oldLongRange / this->buckets;
-        for(int i = 0; i < this->buckets; ++i)
-        {
-            treeNode subNode;
-            subNode.range{childrenLatRange,childrenLongRange}; //latCoords, longCoords
-            subNode.coordinates{UNSET,UNSET2};
-            subNode.offsets{{}};
-            subNode.children{{}};
-            //sample.push_back(node1); //vector of tree nodes
-            add2This->children.push_back(subNode); //add an empty vector of nodes k times
-        }
+        int oldWestBound = add2This->westBound;
+        int oldEastBound = add2This->eastBound;
+        int oldNorthBound = add2This->northBound;
+        int oldSouthBound = add2This->southBound;
+        total_long = (oldWestBound * (-1)) + (oldEastBound); //raw distance
+        total_lat = (oldNorthBound) + (oldSouthBound * (-1)); //raw distance
+        lat_parition = total_lat / this->buckets; //raw distance divided by number of regions (buckets)
+        long_partition = total_long / this->buckets;
         
-    }   
+        for(int i = 0; i < this->buckets; ++i)
+        {   
+            if(i < (this->buckets/2))
+            {
+                treeNode node1;
+                node1.range{lat_parition,long_partition}; //latCoords, longCoords
+                node1.northBound = oldNorthBound;
+                node1.southBound = oldSouthBound + (total_lat/2);
+                node1.eastBound = oldWestBound + ((i+1)*long_partition);
+                node1.westBound = oldWestBound + (i*long_partition);
+                node1.coordinates = this->unsetNode;
+                node1.offsets{{}};
+                node1.children{{}};
+                //sample.push_back(node1); //vector of tree nodes
+                add2This->children.push_back(node1); //add an empty vector of nodes k times
+            }
+            else // i>= k/2
+            {
+                treeNode node1;
+                node1.range{lat_parition,long_partition}; //latCoords, longCoords
+                node1.northBound = oldNorthBound - (total_lat/2);
+                node1.southBound = oldSouthBound;
+                node1.eastBound = oldWestBound + ((i+1)*long_partition);
+                node1.westBound = oldWestBound + (i*long_partition);
+                node1.coordinates = this->unsetNode;
+                node1.offsets{{}};
+                node1.children{{}};
+                //sample.push_back(node1); //vector of tree nodes
+                add2This->children.push_back(node1); //add an empty vector of nodes k times
+            }
+        }
+        dms_coords newRange{lat_parition,long_partition};
+        int old_record_newIndex = determineRegion_split(add2This->range, oldCoords.latCoords, 
+            oldCoords.longCoords,oldWestBound,oldEastBound,oldNorthBound,oldSouthBound);
+        auto it = add2This->children.begin();
+        advance(it,old_record_newIndex);
+        treeNode* n = add2This->children.at(it);
+        n->coordinates = oldCoords;
+        n->offsets = oldOffsets;
+        //finished adding the record that was previously by itself
 
+        int subNode = determineRegion(add2This->range, addThis, 
+            add2This->westBound, add2This->eastBound, add2This->northBound, add2This->southBound);
+
+        treeNode sub = add2This->children[subNode];
+
+        add_to_node(add2This->children[subNode], add2This->range, addThis, 
+            sub->westBound, sub->eastBound, sub->northBound, sub->southBound);
+
+        // int childrenLatRange = oldLatRange / this->buckets;
+        // int childrenLongRange = oldLongRange / this->buckets;
+        // for(int i = 0; i < this->buckets; ++i)
+        // {
+        //     treeNode subNode;
+        //     subNode.range{childrenLatRange,childrenLongRange}; //latCoords, longCoords
+        //     subNode.coordinates{UNSET,UNSET2};
+        //     subNode.offsets{{}};
+        //     subNode.children{{}};
+        //     //sample.push_back(node1); //vector of tree nodes
+        //     add2This->children.push_back(subNode); //add an empty vector of nodes k times
+        // }
+    }   
 }
 
 void CoordinateIndex::splitNode(GISRecord* this_record)
@@ -259,8 +400,10 @@ void CoordinateIndex::add(GISRecord* record)
     //choosing to preserve the range value even when node ends up spawning children because can help with
         //the math
 
-    add_to_node(kTree[subNode], parentRange, record);
-    // do this after : this.records.push_back(record);
+    add_to_node(kTree[subNode], parentRange, record, this->westLimit,
+    this->eastLimit, this->northLimit, this->southLimit);
+    // do this after : 
+    this.records.push_back(record);
 
 
 }
