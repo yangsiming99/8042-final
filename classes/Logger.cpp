@@ -1,6 +1,6 @@
 #include "../headers/Logger.h"
 #include "../headers/NameIndex.h"
-#include "../headers/GisRecord.h"
+#include "../headers/GISRecord.h"
 #include "../headers/BufferPool.h"
 #include <string>
 #include <iostream>
