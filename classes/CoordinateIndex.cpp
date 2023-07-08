@@ -17,13 +17,6 @@ using namespace std;
 
 CoordinateIndex::CoordinateIndex()
 {
-    this->westLimit = 150;
-    this->eastLimit = 150;
-    this->northLimit = 45;
-    this->southLimit = 45;
-    this->buckets = 4;
-    this->dbPath = "";
-    this->kTree = {};
 }
 CoordinateIndex::CoordinateIndex(string wLimit, string eLimit, string nLimit, string sLimit, string k)
 {
@@ -53,7 +46,8 @@ CoordinateIndex::CoordinateIndex(string wLimit, string eLimit, string nLimit, st
             node1.southBound = string2DMS(sLimit) + (total_lat/2);
             node1.eastBound = string2DMS(wLimit) + ((i+1)*long_partition);
             node1.westBound = string2DMS(wLimit) + (i*long_partition);
-            node1.coordinates = this->unsetNode;
+            node1.coordinates.latCoords = UNSET;
+            node1.coordinates.longCoords = UNSET2;
             node1.offsets = {};
             node1.children = {};
             //sample.push_back(node1); //vector of tree nodes
@@ -68,7 +62,9 @@ CoordinateIndex::CoordinateIndex(string wLimit, string eLimit, string nLimit, st
             node1.southBound = string2DMS(sLimit);
             node1.eastBound = string2DMS(wLimit) + ((i+1)*long_partition);
             node1.westBound = string2DMS(wLimit) + (i*long_partition);
-            node1.coordinates = this->unsetNode;
+            // node1.coordinates = this->unsetNode;
+            node1.coordinates.latCoords = UNSET;
+            node1.coordinates.longCoords = UNSET2;
             node1.offsets = {};
             node1.children= {};
             //sample.push_back(node1); //vector of tree nodes
@@ -116,7 +112,33 @@ GISRecord CoordinateIndex::processTxt(string rawText, int off) //return by value
     return new_record;
 }
 
-int string2DMS(string coords)
+GISRecord CoordinateIndex::processVector(vector<string> s, int off)
+{
+    //vector<string> parameters = {};
+    // string current = ""; //current parameter value
+    // for (char c : rawText) //for each character in rawText
+    // {
+    //     if( c != '|') // if it is not a pipe character
+    //     {
+    //         current += c; //add c to current parameter
+    //     }
+    //     else if (c == '|') //if we encounter a pipe
+    //     {
+    //         parameters.push_back(current); //append whatever we have read to parameters
+    //         current = ""; //reset the string
+    //     }
+    // }
+    GISRecord new_record{off,s[0],s[1],s[2],s[3],
+    s[4],s[5],s[6],s[7],
+    s[8],s[9],s[10],s[11],
+    s[12],s[13],s[14],s[15],
+    s[16],s[17],s[18],s[19]};
+
+    return new_record;
+}
+
+
+int CoordinateIndex::string2DMS(string coords)
 {
     char orientation = coords[coords.length()-1];
     coords.erase(coords.end()); //remove last char
@@ -281,7 +303,7 @@ int p_westBound, int p_eastBound, int p_northBound, int p_southBound)
     //determine add2This node status
     dms_coords nodeCoords = add2This->coordinates;
     int childrenAmount = add2This->children.size();
-    if(((nodeCoords.latCoords == this->unsetNode.latCoords) && (nodeCoords.longCoords == this->unsetNode.longCoords)) 
+    if(((nodeCoords.latCoords == UNSET) && (nodeCoords.longCoords == UNSET2)) 
             && childrenAmount == 0) //if coords are unset and no children
     {
         add2This->range = parentRange;
@@ -293,7 +315,7 @@ int p_westBound, int p_eastBound, int p_northBound, int p_southBound)
         add2This->offsets.push_back(addThis->getOffset());
         add2This->children = {}; //since was unset prior, we have no children at the moment
     } //changes to a SET state with no children
-    else if (((nodeCoords.latCoords == this->unsetNode.latCoords) && (nodeCoords.longCoords == this->unsetNode.longCoords)) 
+    else if (((nodeCoords.latCoords == UNSET) && (nodeCoords.longCoords == UNSET2)) 
             && childrenAmount > 0) //coords unset WITH children
     {
         //note that we use this sub-node's range and bounds
@@ -303,11 +325,12 @@ int p_westBound, int p_eastBound, int p_northBound, int p_southBound)
         add_to_node(add2This->children[subNode], add2This->range, addThis, 
             sub->westBound, sub->eastBound, sub->northBound, sub->southBound);
     }
-    else if (((nodeCoords.latCoords != this->unsetNode.latCoords) && (nodeCoords.longCoords != this->unsetNode.longCoords)) 
+    else if (((nodeCoords.latCoords != UNSET) && (nodeCoords.longCoords != UNSET2)) 
             && childrenAmount == 0) //set cords and no children
     {
         dms_coords oldCoords = add2This->coordinates;
-        add2This->coordinates = this->unsetNode;
+        add2This->coordinates.latCoords = UNSET;
+        add2This->coordinates.longCoords = UNSET2;
 
         vector<int> oldOffsets = add2This->offsets;
         add2This->offsets.clear();
@@ -334,7 +357,8 @@ int p_westBound, int p_eastBound, int p_northBound, int p_southBound)
                 node1->southBound = oldSouthBound + (total_lat/2);
                 node1->eastBound = oldWestBound + ((i+1)*long_partition);
                 node1->westBound = oldWestBound + (i*long_partition);
-                node1->coordinates = this->unsetNode;
+                node1->coordinates.latCoords = UNSET;
+                node1->coordinates.longCoords = UNSET2;
                 node1->offsets = {};
                 node1->children = {};
                 //sample.push_back(node1); //vector of tree nodes
@@ -349,7 +373,8 @@ int p_westBound, int p_eastBound, int p_northBound, int p_southBound)
                 node1->southBound = oldSouthBound;
                 node1->eastBound = oldWestBound + ((i+1)*long_partition);
                 node1->westBound = oldWestBound + (i*long_partition);
-                node1->coordinates = this->unsetNode;
+                add2This->coordinates.latCoords = UNSET;
+                add2This->coordinates.longCoords = UNSET2;
                 node1->offsets = {};
                 node1->children = {};
                 //sample.push_back(node1); //vector of tree nodes
@@ -484,12 +509,12 @@ vector<int> CoordinateIndex::traverseSubNode(treeNode* subnode, GISRecord* recor
     dms_coords nodeCoords = subnode->coordinates;
     int childrenAmount = subnode->children.size();
 
-    if(((nodeCoords.latCoords == this->unsetNode.latCoords) && (nodeCoords.longCoords == this->unsetNode.longCoords)) 
+    if(((nodeCoords.latCoords == UNSET) && (nodeCoords.longCoords == UNSET2)) 
             && childrenAmount == 0) //if coords are unset and no children
     {
         answer.push_back(-1); //nothing is set here, so not found
     } //changes to a SET state with no children
-    else if (((nodeCoords.latCoords == this->unsetNode.latCoords) && (nodeCoords.longCoords == this->unsetNode.longCoords)) 
+    else if (((nodeCoords.latCoords == UNSET) && (nodeCoords.longCoords == UNSET2)) 
             && childrenAmount > 0) //coords unset WITH children
     {
         int majorIndex = 0;
@@ -509,7 +534,7 @@ vector<int> CoordinateIndex::traverseSubNode(treeNode* subnode, GISRecord* recor
         vector<int> subNodeTravel = traverseSubNode(&kTree[majorIndex], record);
         answer.insert(answer.end(), subNodeTravel.begin(),subNodeTravel.end());
     }
-    else if (((nodeCoords.latCoords != this->unsetNode.latCoords) && (nodeCoords.longCoords != this->unsetNode.longCoords)) 
+    else if (((nodeCoords.latCoords != UNSET) && (nodeCoords.longCoords != UNSET2)) 
             && childrenAmount == 0) //set cords and no children
     {
         if(nodeCoords.latCoords == lat_record && nodeCoords.longCoords == long_record)
@@ -534,12 +559,12 @@ vector<int> CoordinateIndex::traverseSubNode_b(treeNode* subnode, int lat_Coords
     dms_coords nodeCoords = subnode->coordinates;
     int childrenAmount = subnode->children.size();
 
-    if(((nodeCoords.latCoords == this->unsetNode.latCoords) && (nodeCoords.longCoords == this->unsetNode.longCoords)) 
+    if(((nodeCoords.latCoords == UNSET) && (nodeCoords.longCoords == UNSET2)) 
             && childrenAmount == 0) //if coords are unset and no children
     {
         answer.push_back(-1); //nothing is set here, so not found
     } //changes to a SET state with no children
-    else if (((nodeCoords.latCoords == this->unsetNode.latCoords) && (nodeCoords.longCoords == this->unsetNode.longCoords)) 
+    else if (((nodeCoords.latCoords == UNSET) && (nodeCoords.longCoords == UNSET2)) 
             && childrenAmount > 0) //coords unset WITH children
     {
         int majorIndex = 0;
@@ -559,7 +584,7 @@ vector<int> CoordinateIndex::traverseSubNode_b(treeNode* subnode, int lat_Coords
         vector<int> subNodeTravel = traverseSubNode_b(&kTree[majorIndex], lat_Coords, long_Coords);
         answer.insert(answer.end(), subNodeTravel.begin(),subNodeTravel.end());
     }
-    else if (((nodeCoords.latCoords != this->unsetNode.latCoords) && (nodeCoords.longCoords != this->unsetNode.longCoords)) && childrenAmount == 0) //set cords and no children
+    else if (((nodeCoords.latCoords != UNSET) && (nodeCoords.longCoords != UNSET2)) && childrenAmount == 0) //set cords and no children
     {
         if(nodeCoords.latCoords == lat_Coords && nodeCoords.longCoords == long_Coords)
         {
@@ -587,12 +612,12 @@ vector<int> CoordinateIndex::traverseSubNode_range(treeNode* subnode, dms_coords
     dms_coords nodeCoords = subnode->coordinates;
     int childrenAmount = subnode->children.size();
 
-    if(((nodeCoords.latCoords == this->unsetNode.latCoords) && (nodeCoords.longCoords == this->unsetNode.longCoords)) 
+    if(((nodeCoords.latCoords == UNSET) && (nodeCoords.longCoords == UNSET2)) 
             && childrenAmount == 0) //if coords are unset and no children
     {
         answer.push_back(-1); //nothing is set here, so not found
     } //changes to a SET state with no children
-    else if (((nodeCoords.latCoords == this->unsetNode.latCoords) && (nodeCoords.longCoords == this->unsetNode.longCoords)) 
+    else if (((nodeCoords.latCoords == UNSET) && (nodeCoords.longCoords == UNSET2)) 
             && childrenAmount > 0) //coords unset WITH children
     {
         int majorIndex = 0;
@@ -613,7 +638,7 @@ vector<int> CoordinateIndex::traverseSubNode_range(treeNode* subnode, dms_coords
         vector<int> subNodeTravel = traverseSubNode_range(&kTree[majorIndex], center, lat_Coords, long_Coords);
         answer.insert(answer.end(), subNodeTravel.begin(),subNodeTravel.end());
     }
-    else if (((nodeCoords.latCoords != this->unsetNode.latCoords) && (nodeCoords.longCoords != this->unsetNode.longCoords)) 
+    else if (((nodeCoords.latCoords != UNSET) && (nodeCoords.longCoords != UNSET2)) 
             && childrenAmount == 0) //set cords and no children
     {
         if((nodeCoords.longCoords >= westBound_region && nodeCoords.longCoords <= eastBound_region) && 
@@ -798,7 +823,9 @@ void CoordinateIndex::remove(GISRecord* record)
                 advance(it_node,i);
             }
         }
-        found.coordinates=this->unsetNode;
+        // found.coordinates=this->unsetNode;
+        found.coordinates.latCoords = UNSET;
+        found.coordinates.longCoords = UNSET2;
         found.offsets.clear();
         found.children={};
         //found.erase(it_node);
@@ -815,17 +842,17 @@ void CoordinateIndex::print_subTree(vector<treeNode*> subnode)
         treeNode* n = *it;
         dms_coords nodeCoords = n->coordinates;
         int childrenAmount = n->children.size();
-        if(((nodeCoords.latCoords == this->unsetNode.latCoords) && (nodeCoords.longCoords == this->unsetNode.longCoords)) 
+        if(((nodeCoords.latCoords == UNSET) && (nodeCoords.longCoords == UNSET2)) 
                 && childrenAmount == 0) //if coords are unset and no children
         {
             cout << "subTree co-ordinates UNSET" << endl; //nothing is set here, so not found
         } 
-        else if (((nodeCoords.latCoords == this->unsetNode.latCoords) && (nodeCoords.longCoords == this->unsetNode.longCoords)) 
+        else if (((nodeCoords.latCoords == UNSET) && (nodeCoords.longCoords == UNSET2)) 
                 && childrenAmount > 0) //coords unset WITH children
         {
             print_subTree(n->children);
         }
-        else if (((nodeCoords.latCoords != this->unsetNode.latCoords) && (nodeCoords.longCoords != this->unsetNode.longCoords)) 
+        else if (((nodeCoords.latCoords != UNSET) && (nodeCoords.longCoords != UNSET2)) 
                 && childrenAmount == 0) //coords set;  NO children
         {
             cout << "sub-tree index: " << i <<", contains: " <<endl;
@@ -847,19 +874,19 @@ void CoordinateIndex::to_str()
         dms_coords nodeCoords = t.coordinates;
         int childrenAmount = t.children.size();
 
-        if(((nodeCoords.latCoords == this->unsetNode.latCoords) && (nodeCoords.longCoords == this->unsetNode.longCoords))
+        if(((nodeCoords.latCoords == UNSET) && (nodeCoords.longCoords == UNSET2))
             && childrenAmount == 0) //if coords are unset and no children
         {
             cout << "parent_node : " << j << ": UNSET" << endl;//nothing is set here, so not found
         } //changes to a SET state with no children
-        else if (((nodeCoords.latCoords == this->unsetNode.latCoords) && (nodeCoords.longCoords == this->unsetNode.longCoords)) 
+        else if (((nodeCoords.latCoords == UNSET) && (nodeCoords.longCoords == UNSET2)) 
             && childrenAmount > 0) //coords unset WITH children
         {
             //print subTree
             cout << "parent_node : " << j << endl;
             print_subTree(kTree[j].children);
         }
-        else if (((nodeCoords.latCoords != this->unsetNode.latCoords) && (nodeCoords.longCoords != this->unsetNode.longCoords)) 
+        else if (((nodeCoords.latCoords != UNSET) && (nodeCoords.longCoords != UNSET2)) 
             && childrenAmount == 0) //set cords and no children
         {
             cout << "parent_node : " << j << endl;

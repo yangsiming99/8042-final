@@ -20,7 +20,7 @@ int global = 20;
 SystemManager sysm;
 CommandProcessor cmd_proc;
 NameIndex ni;
-
+CoordinateIndex ci;
 
 void parse_commands(vector<string> command, Logger lg, BufferPool* bp)
 {
@@ -31,7 +31,7 @@ void parse_commands(vector<string> command, Logger lg, BufferPool* bp)
 	}
 	else if (command[0] == "import")
 	{
-		cmd_proc.cmd_import(command, sysm.get_bounds(), ni);
+		cmd_proc.cmd_import(command, sysm.get_bounds(), ni, ci);
 		lg.log_import(ni);
 	}
 	else if (command[0] == "debug")

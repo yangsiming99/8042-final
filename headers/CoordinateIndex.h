@@ -50,6 +50,9 @@
 
  */
 
+#ifndef COORDINATE_INDEX
+#define COORDINATE_INDEX
+
 #include <string>
 #include <vector>
 #include <fstream>
@@ -89,9 +92,9 @@ class CoordinateIndex
         int longCoords;
     };
     
-    dms_coords unsetNode;
-    unsetNode.latCoords = UNSET;
-    unsetNode.longCoords = UNSET2;
+    // dms_coords unsetNode;
+    // unsetNode.latCoords = UNSET;
+    // unsetNode.longCoords = UNSET2;
     struct treeNode
     {
         int westBound;
@@ -125,7 +128,7 @@ class CoordinateIndex
         int westBound, int eastBound, int northBound, int southBound);
 
     GISRecord processTxt(string rawText, int off); //return by value
-   
+    GISRecord processVector(vector<string> s, int off); 
     //inner helper function. spawns k child nodes and calls add upon the subnode 
     void add_to_node(treeNode* add2This, dms_coords parentRange, GISRecord* addThis, 
         int westBound, int eastBound, int northBound, int southBound);
@@ -171,6 +174,7 @@ class CoordinateIndex
     void print_subTree(vector<treeNode*> subnode);
     void to_str(); //for debug
 
+
     string getDbPath();
     void setDbPath(string filePath);
 
@@ -182,3 +186,4 @@ class CoordinateIndex
 
 };
 
+#endif

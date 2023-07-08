@@ -1,5 +1,5 @@
 #include "../headers/NameIndex.h"
-#include "../headers/GisRecord.h"
+#include "../headers/GISRecord.h"
 #include <iostream>
 #include <fstream>
 #include <string>
