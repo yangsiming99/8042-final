@@ -12,6 +12,7 @@
 #include "headers/SystemManager.h"
 #include "headers/NameIndex.h"
 #include "headers/BufferPool.h"
+#include "headers/CoordinateIndex.h"
 
 using namespace std;
 

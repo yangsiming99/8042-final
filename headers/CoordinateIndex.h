@@ -83,12 +83,15 @@ class CoordinateIndex
     //helper structs.
     //dms_coords: initiate using GISRecord co_ordinates 
     //helps me to avoid making operators with std::pair. I'm not good enough to think of smth elses 
-    struct dms_cords 
+    struct dms_coords 
     {
         int latCoords;
         int longCoords;
     };
-    const dms_coords unsetNode{UNSET,UNSET2};
+    
+    dms_coords unsetNode;
+    unsetNode.latCoords = UNSET;
+    unsetNode.longCoords = UNSET2;
     struct treeNode
     {
         int westBound;
@@ -110,7 +113,7 @@ class CoordinateIndex
     //initialize empty stuff
     CoordinateIndex();
     //db not set yet when constructed
-    CoordinateIndex(int wLimit, int eLimit, int nLimit, int sLimit, int k);
+    CoordinateIndex(string wLimit, string eLimit, string nLimit, string sLimit, string k);
 
     //functions
 
@@ -153,7 +156,7 @@ class CoordinateIndex
     //return a vector of offsets
     vector<int> what_is_at(dms_coords coords);
 
-    vector<int> what_is_in(dms_coords center_coords, int half_height, int half_width, string optional)
+    vector<int> what_is_in(dms_coords center_coords, int half_height, int half_width, string optional);
 
     //logic behind spatial regions
     //westLimit to eastLimit is our longitude range
@@ -165,7 +168,7 @@ class CoordinateIndex
 
     void changeK(int newK); //changes the divisions of spatial regions
 
-    void print_subTree(vector<treeNode> subnode);
+    void print_subTree(vector<treeNode*> subnode);
     void to_str(); //for debug
 
     string getDbPath();
@@ -177,5 +180,5 @@ class CoordinateIndex
     //convert decimals to dms 
 
 
-}
+};
 

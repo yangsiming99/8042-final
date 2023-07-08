@@ -1,6 +1,8 @@
 #pragma once
 #include <iostream>
 #include <string>
+#include <vector>
+#include <fstream>
 
 using namespace std;
 
@@ -52,7 +54,7 @@ public:
 		string dms_primary_lat, string dms_primary_long, string dec_primary_lat, 
 		string dec_primary_long, string dms_src_lat, string dms_src_long, 
 		string dec_src_lat, string dec_src_long, string m_elevation, string ft_elevation, 
-		string mapName,string createdDate, string editedDate, // MM/DD/YYYY format	
+		string mapName,string createdDate, string editedDate // MM/DD/YYYY format	
 	);
 	
 	//void create_db_file();

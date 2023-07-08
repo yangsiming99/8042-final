@@ -1,7 +1,7 @@
 #ifndef NAMEINDEX_H
 #define NAMEINDEX_H
 
-#include "../headers/GisRecord.h"
+#include "../headers/GISRecord.h"
 #include "BufferPool.h"
 #include <string>
 #include <vector>
