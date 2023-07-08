@@ -73,6 +73,52 @@ CoordinateIndex::CoordinateIndex(string wLimit, string eLimit, string nLimit, st
     }
 }
 
+void CoordinateIndex::populateTree(int w, int e, int n, int s, int k)
+{
+    int k_int = k;
+    int total_long = ((w) * (-1)) + (e); //raw distance
+    int total_lat = (n) + ((s) * (-1)); //raw distance
+    int lat_parition = total_lat / k_int; //raw distance divided by number of regions (buckets)
+    int long_partition = total_long / k_int;
+
+    for(int i = 0; i < k_int; ++i)
+    {   
+        if(i < k_int/2)
+        {
+            treeNode node1;
+            node1.range.latCoords = lat_parition;
+            node1.range.longCoords = long_partition; //latCoords, longCoords
+            node1.northBound = string2DMS(nLimit);
+            node1.southBound = string2DMS(sLimit) + (total_lat/2);
+            node1.eastBound = string2DMS(wLimit) + ((i+1)*long_partition);
+            node1.westBound = string2DMS(wLimit) + (i*long_partition);
+            node1.coordinates.latCoords = UNSET;
+            node1.coordinates.longCoords = UNSET2;
+            node1.offsets = {};
+            node1.children = {};
+            //sample.push_back(node1); //vector of tree nodes
+            this->kTree.push_back(node1); //add an empty vector of nodes k times
+        }
+        else // i>= k/2
+        {
+            treeNode node1;
+            node1.range.latCoords = lat_parition;
+            node1.range.longCoords = long_partition; //latCoords, longCoords
+            node1.northBound = string2DMS(nLimit) - (total_lat/2);
+            node1.southBound = string2DMS(sLimit);
+            node1.eastBound = string2DMS(wLimit) + ((i+1)*long_partition);
+            node1.westBound = string2DMS(wLimit) + (i*long_partition);
+            // node1.coordinates = this->unsetNode;
+            node1.coordinates.latCoords = UNSET;
+            node1.coordinates.longCoords = UNSET2;
+            node1.offsets = {};
+            node1.children= {};
+            //sample.push_back(node1); //vector of tree nodes
+            this->kTree.push_back(node1); //add an empty vector of nodes k times
+        }
+    }
+}
+
 string CoordinateIndex::getDbPath()
 {
     return this->dbPath;

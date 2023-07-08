@@ -120,6 +120,8 @@ class CoordinateIndex
 
     //functions
 
+    void populateTree(int w, int e, int n, int s, int k);
+
     int string2DMS(string coords);
     int determineRegion(dms_coords parentRange, GISRecord* current_record, 
         int westBound, int eastBound, int northBound, int southBound);
