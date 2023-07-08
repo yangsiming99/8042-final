@@ -88,10 +88,10 @@ void CoordinateIndex::populateTree(int w, int e, int n, int s, int k)
             treeNode node1;
             node1.range.latCoords = lat_parition;
             node1.range.longCoords = long_partition; //latCoords, longCoords
-            node1.northBound = string2DMS(nLimit);
-            node1.southBound = string2DMS(sLimit) + (total_lat/2);
-            node1.eastBound = string2DMS(wLimit) + ((i+1)*long_partition);
-            node1.westBound = string2DMS(wLimit) + (i*long_partition);
+            node1.northBound = n;
+            node1.southBound =(s) + (total_lat/2);
+            node1.eastBound = (w) + ((i+1)*long_partition);
+            node1.westBound = (w) + (i*long_partition);
             node1.coordinates.latCoords = UNSET;
             node1.coordinates.longCoords = UNSET2;
             node1.offsets = {};
@@ -104,10 +104,10 @@ void CoordinateIndex::populateTree(int w, int e, int n, int s, int k)
             treeNode node1;
             node1.range.latCoords = lat_parition;
             node1.range.longCoords = long_partition; //latCoords, longCoords
-            node1.northBound = string2DMS(nLimit) - (total_lat/2);
-            node1.southBound = string2DMS(sLimit);
-            node1.eastBound = string2DMS(wLimit) + ((i+1)*long_partition);
-            node1.westBound = string2DMS(wLimit) + (i*long_partition);
+            node1.northBound = (n) - (total_lat/2);
+            node1.southBound = (s);
+            node1.eastBound = (w) + ((i+1)*long_partition);
+            node1.westBound = (w) + (i*long_partition);
             // node1.coordinates = this->unsetNode;
             node1.coordinates.latCoords = UNSET;
             node1.coordinates.longCoords = UNSET2;
